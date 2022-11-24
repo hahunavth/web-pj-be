@@ -14,7 +14,6 @@ import { AppService } from './app.service';
 import configuration from './common/config/env.config';
 import { cfgModuleList } from './common/config/module.config';
 import { PrismaModule } from './common/prisma/prisma.module';
-import { PostModule } from './post/post.module';
 import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
@@ -36,7 +35,6 @@ const cfg = {
         cache: true,
       }),
       PrismaModule,
-      PostModule,
       UserModule,
       AuthModule,
     ],

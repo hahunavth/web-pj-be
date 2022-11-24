@@ -2,12 +2,11 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { PrismaService } from './common/prisma/prisma.service';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import { AllExceptionsFilter } from './common/exceptions/all-exception.filter';
 import { PrismaExceptionFilter } from './common/exceptions/prisma-exception.filter';
-import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -30,7 +30,7 @@ const cfg = {
     [
       ConfigModule.forRoot({
         isGlobal: true,
-        envFilePath: ['.env', '.env.development.local', '.env.development'],
+        envFilePath: ['.env'],
         load: [configuration],
         cache: true,
       }),

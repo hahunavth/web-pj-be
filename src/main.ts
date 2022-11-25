@@ -44,11 +44,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
-
   // print config
   const configService = app.get(ConfigService);
   console.log(configService);
+
+  await app.listen(configService.get('port'));
 }
 
 bootstrap();

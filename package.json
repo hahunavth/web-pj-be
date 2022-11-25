@@ -1,8 +1,11 @@
 {
   "name": "web-prog-proj",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "backend - web programming project - group 5",
+  "author": "hahunavth",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

@@ -1,5 +1,5 @@
 import { IsString, IsNumber, IsDate } from 'class-validator';
-import { User, Role } from '@prisma/client';
+import { User, Role, Gender } from '@prisma/client';
 
 export class UserEntity implements User {
   @IsNumber()
@@ -16,4 +16,8 @@ export class UserEntity implements User {
   role: Role;
   @IsDate()
   updatedAt: Date;
+  @IsString()
+  gender: Gender;
+  @IsString()
+  phone: string;
 }

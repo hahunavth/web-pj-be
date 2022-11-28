@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+    db:
+        image: postgres:15.1
+        container_name: postgres_2
+        restart: always
+        networks:
+            - docker_network
+        ports:
+            - 54321:5432
+        expose:
+            - 5432
+        environment:
+            POSTGRES_PASSWORD: postgres
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data
+
+    prod:
+        container_name: nestjs_api_prod
+        image: nestjs-api-prod:1.0.0
+        build:
+            context: .
+            target: production
+            dockerfile: ./Dockerfile
+        command: node  /usr/src/app/dist/src/main.js
+        networks:
+            - docker_network
+        ports:
+            - 3000:3000
+            - 9229:9229
+        environment:
+            DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
+            JWT_SECRET: abc
+            JwT_REFRESH_SECRET: abc
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        restart: unless-stopped
+        depends_on:
+            - db
+
+networks:
+  docker_network:
+    driver: bridge

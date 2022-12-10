@@ -10,6 +10,196 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// enum Role {
+//   USER
+//   ADMIN
+// }
+
+// enum Gender {
+//   MALE
+//   FEMALE
+//   OTHER
+// }
+
+// enum OrderStatus {
+//   CHO_NHAN_HANG
+//   DANG_GIAO_HANG
+//   DA_GIAO_HANG
+// }
+
+// model User {
+//   id        Int         @id @default(autoincrement())
+//   email     String      @unique
+//   name      String
+//   password  String
+//   gender    Gender
+//   role      Role
+//   phone     String
+//   // 
+//   createdAt DateTime    @default(now())
+//   updatedAt DateTime    @updatedAt
+//   // 
+//   Order     Order[]
+//   UserToken UserToken[]
+// }
+
+// model UserToken {
+//   user   User @relation(fields: [userId], references: [id])
+//   userId Int
+
+//   token     String
+//   // 
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@id([userId])
+// }
+
+// model Author {
+//   id        Int      @id @default(autoincrement())
+//   name      String
+//   // 
+//   Book      Book[]
+//   // 
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Book {
+//   id Int @id @default(autoincrement())
+
+//   // poster          String // image url
+//   // 
+//   genre          String // book, manga, 
+//   name           String // @db.VarChar(200)
+//   price          Int
+//   supplier       String
+//   publisher      String
+//   discount       Int
+//   code           Int
+//   publishingDate DateTime
+//   translator     String
+//   weight         Int
+//   width          Float
+//   height         Float
+//   form           String // Bia mem / cung ?
+//   details        String // Mo ta
+//   rate           Int
+//   // 
+//   quantity       Decimal
+//   // 
+//   author         Author         @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+//   authorId       Int
+//   // 
+//   createdAt      DateTime       @default(now())
+//   updatedAt      DateTime       @updatedAt
+//   // 
+//   OrderItem      OrderItem[]
+//   WareHouse      WareHouse[]
+//   ImportHist     ImportHist[]
+//   AttachedFile   AttachedFile[]
+//   BookDiscount   BookDiscount[]
+// }
+
+// model Order {
+//   id               Int                @id @default(autoincrement())
+//   totalWithTax     Int
+//   shippingFee      Int
+//   status           OrderStatus
+//   // 
+//   items            OrderItem[]
+//   // 
+//   user             User               @relation(fields: [userId], references: [id])
+//   // 
+//   createdAt        DateTime           @default(now())
+//   updatedAt        DateTime           @updatedAt
+//   userId           Int
+//   OrderPromotional OrderPromotional[]
+// }
+
+// model OrderItem {
+//   id        Int   @id @default(autoincrement())
+//   quantity  Int
+//   unitPrice Int
+//   // 
+//   book      Book  @relation(fields: [bookId], references: [id])
+//   bookId    Int
+//   Order     Order @relation(fields: [orderId], references: [id])
+//   orderId   Int
+// }
+
+// model OrderPromotional {
+//   order         Order       @relation(fields: [orderId], references: [id])
+//   promotional   Promotional @relation(fields: [promotionalId], references: [id])
+//   orderId       Int
+//   promotionalId Int
+
+//   @@id([orderId, promotionalId])
+// }
+
+// model WareHouse {
+//   id         Int          @id @default(autoincrement())
+//   quantity   Int
+//   // 
+//   book       Book         @relation(fields: [bookId], references: [id])
+//   bookId     Int
+//   ImportHist ImportHist[]
+//   // 
+//   createdAt  DateTime     @default(now())
+//   updatedAt  DateTime     @updatedAt
+// }
+
+// model ImportHist {
+//   id          Int       @id @default(autoincrement())
+//   quantity    Int
+//   importDate  DateTime  @default(now())
+//   // 
+//   createdAt   DateTime  @default(now())
+//   updatedAt   DateTime  @updatedAt
+//   // 
+//   book        Book      @relation(fields: [bookId], references: [id])
+//   wareHouse   WareHouse @relation(fields: [wareHouseId], references: [id])
+//   bookId      Int
+//   wareHouseId Int
+// }
+
+// model BookDiscount {
+//   id        Int      @id @default(autoincrement())
+//   startAt   DateTime
+//   endAt     DateTime
+//   // 
+//   book      Book     @relation(fields: [bookId], references: [id])
+//   bookId    Int
+//   // 
+//   discount  Int // Giam gia ??%
+//   // 
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Promotional {
+//   id               Int                @id @default(autoincrement())
+//   name             String
+//   startAt          DateTime
+//   endAt            DateTime
+//   code             String // ma giam gia
+//   // condition
+//   minTotal         Int
+//   freeShip         Boolean
+//   // 
+//   createdAt        DateTime           @default(now())
+//   updatedAt        DateTime           @updatedAt
+//   // 
+//   OrderPromotional OrderPromotional[]
+// }
+
+// model AttachedFile {
+//   bookId Int @id
+
+//   book Book   @relation(fields: [bookId], references: [id])
+//   url  String
+// }
+
 enum Role {
   USER
   ADMIN
@@ -21,31 +211,27 @@ enum Gender {
   OTHER
 }
 
-enum OrderStatus {
-  CHO_NHAN_HANG
-  DANG_GIAO_HANG
-  DA_GIAO_HANG
-}
-
 model User {
-  id        Int         @id @default(autoincrement())
-  email     String      @unique
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
   name      String
   password  String
   gender    Gender
   role      Role
   phone     String
   // 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   // 
   Order     Order[]
-  UserToken UserToken[]
+  Feedback  Feedback[]
+  UserCart  UserCart[]
+  UserToken UserToken? // 1-1
 }
 
 model UserToken {
   user   User @relation(fields: [userId], references: [id])
-  userId Int
+  userId Int  @unique
 
   token     String
   // 
@@ -55,147 +241,93 @@ model UserToken {
   @@id([userId])
 }
 
-model Author {
-  id        Int      @id @default(autoincrement())
-  name      String
-  // 
-  Book      Book[]
-  // 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Book {
+  id          Int         @id @default(autoincrement())
+  author      String
+  category    String
+  numOfPages  Int
+  publisher   String
+  publishDate DateTime    @unique @default(now())
+  coverType   String
+  Feedback    Feedback[]
+  UserCart    UserCart[]
+  OrderItem   OrderItem[]
 }
 
-model Book {
-  id Int @id @default(autoincrement())
+model Feedback {
+  comment String
+  star    Int // 1 - 5
+  // 
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int
+  book    Book   @relation(fields: [bookId], references: [id])
+  bookId  Int
 
-  // poster          String // image url
+  @@id([userId, bookId])
+}
+
+model UserCart {
+  quantity Int
   // 
-  genre          String // book, manga, 
-  name           String // @db.VarChar(200)
-  price          Int
-  supplier       String
-  publisher      String
-  discount       Int
-  code           Int
-  publishingDate DateTime
-  translator     String
-  weight         Int
-  width          Float
-  height         Float
-  form           String // Bia mem / cung ?
-  details        String // Mo ta
-  rate           Int
-  // 
-  quantity       Decimal
-  // 
-  author         Author         @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  authorId       Int
-  // 
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  // 
-  OrderItem      OrderItem[]
-  WareHouse      WareHouse[]
-  ImportHist     ImportHist[]
-  AttachedFile   AttachedFile[]
-  BookDiscount   BookDiscount[]
+  user     User @relation(fields: [userId], references: [id])
+  userId   Int
+  book     Book @relation(fields: [bookId], references: [id])
+  bookId   Int
+
+  @@id([userId, bookId])
+}
+
+model Card {
+  id          Int      @id @default(autoincrement())
+  cvvCode     Int
+  cardCode    String
+  owner       String
+  dateExpired DateTime
+
+  PaymentTransaction PaymentTransaction?
+}
+
+model PaymentTransaction {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  method    String
+
+  card    Card     @relation(fields: [cardId], references: [id])
+  cardId  Int      @unique
+  invoice Invoice? // 1 - 1
+}
+
+model Invoice {
+  id          Int @id @default(autoincrement())
+  totalAmount Int
+
+  paymentTransaction   PaymentTransaction @relation(fields: [paymentTransactionId], references: [id])
+  paymentTransactionId Int                @unique
+  order                Order?
 }
 
 model Order {
-  id               Int                @id @default(autoincrement())
-  totalWithTax     Int
-  shippingFee      Int
-  status           OrderStatus
-  // 
-  items            OrderItem[]
-  // 
-  user             User               @relation(fields: [userId], references: [id])
-  // 
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  userId           Int
-  OrderPromotional OrderPromotional[]
+  id           Int    @id @default(autoincrement())
+  address      String
+  shippingFees Int
+
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId Int     @unique
+  User      User    @relation(fields: [userId], references: [id])
+  userId    Int
+
+  orderItem OrderItem[]
 }
 
 model OrderItem {
-  id        Int   @id @default(autoincrement())
-  quantity  Int
-  unitPrice Int
-  // 
-  book      Book  @relation(fields: [bookId], references: [id])
-  bookId    Int
-  Order     Order @relation(fields: [orderId], references: [id])
-  orderId   Int
-}
+  quantity Int
+  price    Int
 
-model OrderPromotional {
-  order         Order       @relation(fields: [orderId], references: [id])
-  promotional   Promotional @relation(fields: [promotionalId], references: [id])
-  orderId       Int
-  promotionalId Int
+  book    Book  @relation(fields: [bookId], references: [id])
+  bookId  Int
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
 
-  @@id([orderId, promotionalId])
-}
-
-model WareHouse {
-  id         Int          @id @default(autoincrement())
-  quantity   Int
-  // 
-  book       Book         @relation(fields: [bookId], references: [id])
-  bookId     Int
-  ImportHist ImportHist[]
-  // 
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-}
-
-model ImportHist {
-  id          Int       @id @default(autoincrement())
-  quantity    Int
-  importDate  DateTime  @default(now())
-  // 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  // 
-  book        Book      @relation(fields: [bookId], references: [id])
-  wareHouse   WareHouse @relation(fields: [wareHouseId], references: [id])
-  bookId      Int
-  wareHouseId Int
-}
-
-model BookDiscount {
-  id        Int      @id @default(autoincrement())
-  startAt   DateTime
-  endAt     DateTime
-  // 
-  book      Book     @relation(fields: [bookId], references: [id])
-  bookId    Int
-  // 
-  discount  Int // Giam gia ??%
-  // 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Promotional {
-  id               Int                @id @default(autoincrement())
-  name             String
-  startAt          DateTime
-  endAt            DateTime
-  code             String // ma giam gia
-  // condition
-  minTotal         Int
-  freeShip         Boolean
-  // 
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  // 
-  OrderPromotional OrderPromotional[]
-}
-
-model AttachedFile {
-  bookId Int @id
-
-  book Book   @relation(fields: [bookId], references: [id])
-  url  String
+  @@id([bookId, orderId])
 }

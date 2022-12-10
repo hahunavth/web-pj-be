@@ -16,6 +16,17 @@ services:
         volumes:
             - ./postgres-data:/var/lib/postgresql/data
 
+    # db_setup:
+    #     image: postgres:15.1
+    #     depends_on:
+    #         - db
+    #     restart: "no"
+    #     command: echo start_db_setup; echo 2;
+    #     entrypoint:
+    #         ["bash", "/usr/src/app/dist/endtrypoint.sh"]
+            # ["bash", "-c", "ls", "/usr/src/app/dist/"]
+            # ["bash", "-c" ,"'cd", "/usr/src/app/;", "npx", "prisma", "migration", "production;", "echo aaaaaa;"]
+
     prod:
         container_name: nestjs_api_prod
         image: nestjs-api-prod:1.0.0
@@ -39,6 +50,7 @@ services:
         restart: unless-stopped
         depends_on:
             - db
+
 
 networks:
   docker_network:

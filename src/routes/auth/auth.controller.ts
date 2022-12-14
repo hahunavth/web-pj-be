@@ -1,30 +1,19 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Req,
-  Request,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
-  OmitType,
 } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { AuthService } from './auth.service';
-import { AuthLogoutDto } from './dto/auth-logout.dto';
-import { AuthTokenRefreshDto } from './dto/auth-refresh.dto';
-import { AuthTokenDto } from './dto/auth-token.dto';
-import { SignInDto } from './dto/signin.dto';
+import { AuthService } from '@/routes/auth/auth.service';
+import {
+  AuthLogoutDto,
+  AuthTokenDto,
+  AuthTokenRefreshDto,
+  AuthorizationDto,
+  SignInDto,
+} from '@/routes/auth/dto/auth.dto';
 import { RefreshTokenGuard } from './jwt-refresh.guard';
 import { JwtAuthGuard } from './jwt.guard';
 

@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { trim } from 'src/common/utils/cast.utils';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { UserEntity } from '@/routes/user/entities/user.entity';
 import { argon2d, hash, verify } from 'argon2';
 
 @Injectable()

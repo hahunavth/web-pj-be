@@ -16,11 +16,9 @@ import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto, CreateUserDto } from './dto/user.dto';
 import { PaginationQueryDto, PaginatedDto } from 'src/common/utils/query.dto';
 import { ApiPaginatedResponse } from 'src/common/utils/response.utils';
-import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 
 @Controller()
 @ApiTags('users') // 👈 apply tags

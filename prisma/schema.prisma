@@ -247,6 +247,7 @@ model Book {
   category    String
   numOfPages  Int
   publisher   String
+  price       Int
   publishDate DateTime    @unique @default(now())
   coverType   String
   Feedback    Feedback[]

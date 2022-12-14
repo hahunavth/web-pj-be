@@ -10,14 +10,14 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
-import { AppService } from './app.service';
-import configuration from './common/config/env.config';
-import { cfgModuleList } from './common/config/module.config';
-import { PrismaModule } from './common/prisma/prisma.module';
-import { AppController } from './app.controller';
-import { UserModule } from './user/user.module';
+import { AppService } from '@/app.service';
+import configuration from '@/common/config/env.config';
+import { cfgModuleList } from '@/common/config/module.config';
+import { PrismaModule } from '@/common/prisma/prisma.module';
+import { AppController } from '@/app.controller';
+import { UserModule } from '@/routes/user/user.module';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from '@/routes/auth/auth.module';
 
 const cfg = {
   useCache: true,

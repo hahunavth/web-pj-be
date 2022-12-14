@@ -1,11 +1,20 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
-import { PrismaService } from '../common/prisma/prisma.service';
+import { PrismaService } from '../../common/prisma/prisma.service';
 import { hash } from 'argon2';
+import { CRUDService } from '@/common/base/base-service';
+import { UserEntity } from './entities/user.entity';
+import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 
 @Injectable()
-export class UserService {
-  constructor(private prisma: PrismaService) {}
+export class UserService extends CRUDService<
+  User,
+  CreateUserDto,
+  UpdateUserDto
+> {
+  constructor(private prisma: PrismaService) {
+    super(prisma.user);
+  }
 
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,

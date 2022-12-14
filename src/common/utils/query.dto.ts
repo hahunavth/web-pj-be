@@ -7,7 +7,7 @@ import {
   IsNumberString,
   IsOptional,
 } from 'class-validator';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { UserEntity } from '@/routes/user/entities/user.entity';
 import { toBoolean, toLowerCase, toNumber, trim, toDate } from './cast.utils';
 
 export class PaginationQueryDto {

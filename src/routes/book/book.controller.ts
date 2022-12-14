@@ -1,8 +1,8 @@
-import { PaginateQuery, TimeQuery } from '@/common/base/base.decorator';
-import { PaginateReqQueryT } from '@/common/base/base.dto';
-import { queryByAttributes } from '@/common/base/query.mapper';
-import { paginateResponse } from '@/common/base/response.mapper';
-import { PrismaService } from '@/common/prisma/prisma.service';
+import { PaginateQuery, TimeQuery } from '../../common/base/base.decorator';
+import { PaginateReqQueryT } from '../../common/base/base.dto';
+import { queryByAttributes } from '../../common/base/query.mapper';
+import { paginateResponse } from '../../common/base/response.mapper';
+import { PrismaService } from '../../common/prisma/prisma.service';
 import {
   Controller,
   Get,

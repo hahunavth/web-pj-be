@@ -6,14 +6,14 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthService } from '@/routes/auth/auth.service';
+import { AuthService } from '../../routes/auth/auth.service';
 import {
   AuthLogoutDto,
   AuthTokenDto,
   AuthTokenRefreshDto,
   AuthorizationDto,
   SignInDto,
-} from '@/routes/auth/dto/auth.dto';
+} from '../../routes/auth/dto/auth.dto';
 import { RefreshTokenGuard } from './jwt-refresh.guard';
 import { JwtAuthGuard } from './jwt.guard';
 

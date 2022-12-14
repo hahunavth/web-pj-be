@@ -1,5 +1,5 @@
 import { OmitType, PickType } from '@nestjs/swagger';
-import { UserEntity } from '@/routes/user/entities/user.entity';
+import { UserEntity } from '../../..//routes/user/entities/user.entity';
 import { IsString } from 'class-validator';
 
 export class AuthLogoutDto extends PickType(UserEntity, ['id'] as const) {}

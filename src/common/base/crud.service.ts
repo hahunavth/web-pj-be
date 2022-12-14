@@ -79,8 +79,10 @@ export abstract class CRUDService<M, C, U> {
     return this.prismaDeligate.delete({ where: { id } });
   }
 
-  public abstract checkExists(
+  public checkExists(
     data: M | C | U,
     checkAttr?: string | Array<string>,
-  ): Promise<boolean>;
+  ): Promise<boolean> {
+    return new Promise(() => false);
+  }
 }

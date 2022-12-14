@@ -1,5 +1,5 @@
-import { CRUDService } from '@/common/base/crud.service';
-import { PrismaService } from '@/common/prisma/prisma.service';
+import { CRUDService } from '../../common/base/crud.service';
+import { PrismaService } from '../../common/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { Book } from '@prisma/client';
 import { CreateBookDto } from './dto/create-book.dto';

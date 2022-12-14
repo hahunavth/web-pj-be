@@ -1,6 +1,10 @@
-import { IsString } from 'class-validator';
+
+import {IsString} from 'class-validator'
+
+
+
 
 export class CreatePaymentTransactionDto {
-  @IsString() content: string;
-  @IsString() method: string;
+  @IsString()content: string;
+@IsString()method: string;
 }

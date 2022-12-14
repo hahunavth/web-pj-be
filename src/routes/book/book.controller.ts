@@ -1,7 +1,10 @@
-import { PaginateQuery } from '../../common/base/base.decorator';
+import {
+  ApiGetAllQuery,
+  AttrQuery,
+  PaginateQuery,
+  TimeQuery,
+} from '../../common/base/base.decorator';
 import { PaginateReqQueryT } from '../../common/base/base.dto';
-import { queryByAttributes } from '../../common/base/query.mapper';
-import { paginateResponse } from '../../common/base/response.mapper';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import {
   Controller,
@@ -11,9 +14,8 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
 } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { FilterBookDto } from './dto/filter-book.dto';
@@ -33,24 +35,13 @@ export class BookController {
   }
 
   @Get()
-  @ApiQuery({ type: FilterBookDto })
-  async findAll(@PaginateQuery() p: PaginateReqQueryT, @Query() query) {
-    const q = new FilterBookDto(query);
-
-    const data = await this.prisma.book.findMany({
-      skip: p.offset,
-      take: p.limit,
-      where: {
-        ...queryByAttributes(q),
-      },
-    });
-
-    return paginateResponse({
-      count: 0,
-      data,
-      ...p,
-      filter: q,
-    });
+  @ApiGetAllQuery(FilterBookDto)
+  async findAll(
+    @PaginateQuery() paginate: PaginateReqQueryT,
+    @AttrQuery(FilterBookDto) attrQuery,
+    @TimeQuery() timeQuery,
+  ) {
+    return this.bookService.findAll(paginate, timeQuery, attrQuery);
   }
 
   @Get(':id')

@@ -27,6 +27,10 @@ export class BookEntity implements Book {
   publishDate: Date;
   @IsString()
   coverType: string;
+  @IsDate()
+  createdAt: Date;
+  @IsDate()
+  updatedAt: Date;
   // Feedback?:
   // UserCart?:
   // OrderItem?:

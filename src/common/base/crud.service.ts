@@ -1,4 +1,7 @@
 import { PrismaService } from '../prisma/prisma.service';
+import { TimeQueryT } from './base.decorator';
+import { PaginateReqQueryT, KV } from './base.dto';
+import { paginateResponse } from './response.mapper';
 
 /*
  * @brief base CRUD service with prisma orm
@@ -24,8 +27,28 @@ export abstract class CRUDService<M, C, U> {
     }
   }
 
-  public async findAll(param?: any): Promise<M[]> {
-    return this.prismaDeligate.findMany(param);
+  public async findAll(
+    paginate: PaginateReqQueryT,
+    timeQuery?: TimeQueryT,
+    attrQuery?: KV,
+  ) {
+    const data = await this.prismaDeligate.findMany({
+      skip: paginate.offset,
+      take: paginate.limit,
+      where: {
+        ...attrQuery,
+        ...timeQuery.where,
+      },
+    });
+
+    return paginateResponse({
+      count: data?.length,
+      data,
+      startAt: timeQuery?.startAt,
+      endAt: timeQuery?.endAt,
+      ...paginate,
+      filter: attrQuery,
+    });
   }
 
   public async findOne(id: number): Promise<M | null> {

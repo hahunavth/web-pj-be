@@ -1,6 +1,15 @@
+import { applyDecorators, Type } from '@nestjs/common';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import moment from 'moment';
-import { PaginateReqQuery, PaginateReqQueryT } from './base.dto';
+import {
+  ApiExtraModels,
+  ApiOkResponse,
+  ApiParam,
+  ApiQuery,
+  getSchemaPath,
+} from '@nestjs/swagger';
+import * as moment from 'moment';
+import { objAttrMapper } from '../utils/obj-attr.mapper';
+import { PaginateReqQueryT } from './base.dto';
 
 /*
  * @brief Transform request param / query decorator
@@ -30,28 +39,73 @@ export const PaginateQuery = createParamDecorator(
   },
 );
 
+/**
+ * @brief Nhận danh sách filter từ request.query
+ *
+ * @param _filterCls Class chứa attribute để filter
+ */
+export const AttrQuery = createParamDecorator(
+  (_filterCls: Type<any>, ctx: ExecutionContext) => {
+    const query = ctx.switchToHttp().getRequest().query;
+    const filter = objAttrMapper(new _filterCls(), query);
+    return filter;
+  },
+);
+
+export type TimeQueryT = { startAt?: Date; endAt?: Date; where?: any };
+
+// TODO
 export const TimeQuery = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext) => {
     const query = ctx.switchToHttp().getRequest().query;
-    const { startAt, endAt } = query;
+    let { startAt, endAt } = query;
 
-    const result: { startAt?: string; endAt?: string; where?: any } = {};
-    if (startAt != null && moment(String(startAt))) {
-      result.startAt = moment(String(startAt)).format('YYYY-MM-DD HH:mm:ss');
+    const result: { startAt?: Date; endAt?: Date; where?: any } = {};
+    if (
+      startAt != null
+      //  && moment(String(startAt))
+    ) {
+      startAt = moment(String(startAt)).format('YYYY-MM-DD HH:mm:ss');
+      result.startAt = new Date(startAt);
     }
     if (endAt != null && moment(String(endAt))) {
-      result.endAt = moment(String(endAt)).format('YYYY-MM-DD HH:mm:ss');
+      endAt = moment(String(endAt)).format('YYYY-MM-DD HH:mm:ss');
+      result.endAt = new Date(endAt);
     }
 
     const list = [];
-    result.where = { created_at: { AND: list } };
+    result.where = {};
     if (startAt) {
-      list.push({ gte: startAt });
+      list.push({ gte: result.startAt });
     }
     if (endAt) {
-      list.push({ lte: endAt });
+      list.push({ lte: result.endAt });
+    }
+    if (list.length == 2) {
+      result.where = { createdAt: { AND: list } };
+    } else if (list.length == 1) {
+      result.where = { createdAt: list[0] };
     }
 
     return result;
   },
 );
+
+/**
+ * @brief: reqeest param includes:
+ *  - page, linit
+ *  - filter by model attribute
+ *
+ * @param filter filter class
+ * @returns
+ */
+export const ApiGetAllQuery = <TModel extends Type<any>>(filter: TModel) => {
+  return applyDecorators(
+    ApiExtraModels(filter),
+    ApiQuery({ name: 'page', type: Number, required: false }),
+    ApiQuery({ name: 'limit', type: Number, required: false }),
+    ApiQuery({ name: 'startAt', type: String, required: false }),
+    ApiQuery({ name: 'endAt', type: String, required: false }),
+    ApiQuery({ type: filter }),
+  );
+};

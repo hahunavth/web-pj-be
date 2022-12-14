@@ -15,7 +15,7 @@ import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
 import { UpdateUserDto, CreateUserDto, FilterUserDto } from './dto/user.dto';
 import { PaginationQueryDto, PaginatedDto } from 'src/common/utils/query.dto';
-import { ApiPaginatedResponse } from 'src/common/utils/response.utils';
+// import { ApiPaginatedResponse } from 'src/common/utils/response.utils';
 import { PaginateReqQueryT } from 'src/common/base/base.dto';
 import { PaginateQuery } from 'src/common/base/base.decorator';
 import { FilterBookDto } from '../book/dto/filter-book.dto';
@@ -49,6 +49,7 @@ export class UserController {
     @Query() reqQuery,
   ) {
     const filterAttrs = new FilterUserDto(reqQuery);
+
     const data = await this.prisma.user.findMany({
       skip: paginate.offset,
       take: paginate.limit,

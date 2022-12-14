@@ -4,23 +4,23 @@ import { Transform, Type } from 'class-transformer';
 import { PaginateReqQuery } from '../../../common/base/base.dto';
 
 export class FilterBookDto
-  extends PaginateReqQuery
+  // extends PaginateReqQuery
   implements Prisma.BookWhereInput
 {
-  constructor(obj) {
-    super(obj);
-    this.author = obj?.author;
-    this.category = obj?.category;
-    this.publisher = obj?.publisher;
-  }
+  // constructor(obj) {
+  // super(obj);
+  // this.author = obj?.author;
+  // this.category = obj?.category;
+  // this.publisher = obj?.publisher;
+  // }
 
   @IsOptional()
   @IsString()
-  author?: string;
+  public author?: string = undefined;
   @IsOptional()
   @IsString()
-  category?: string;
+  public category?: string = undefined;
   @IsOptional()
   @IsString()
-  publisher?: string;
+  public publisher?: string = undefined;
 }

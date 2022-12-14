@@ -1,3 +1,5 @@
-export class ConnectUserTokenDto {
-  userId: number;
-}
+
+  export class ConnectUserTokenDto {
+    userId: number;
+  }
+  

@@ -37,8 +37,8 @@ export type KV = {
 };
 
 export type TimeFilterT = {
-  startAt?: string;
-  endAt?: string;
+  startAt?: string | Date;
+  endAt?: string | Date;
   filter?: KV;
 };
 

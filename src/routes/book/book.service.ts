@@ -14,11 +14,4 @@ export class BookService extends CRUDService<
   public constructor(prisma: PrismaService) {
     super(prisma.book);
   }
-
-  public checkExists(
-    data: Book | CreateBookDto | UpdateBookDto,
-    checkAttr?: string | string[],
-  ): Promise<boolean> {
-    return null;
-  }
 }

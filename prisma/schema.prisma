@@ -5,6 +5,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator nestjsDto {
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "../src/generated-dto/"
+  outputToNestJsResourceStructure = "true"
+  exportRelationModifierClasses   = "true"
+  reExport                        = "false"
+  createDtoPrefix                 = "Create"
+  updateDtoPrefix                 = "Update"
+  dtoSuffix                       = "Dto"
+  entityPrefix                    = ""
+  entitySuffix                    = "Entity"
+  fileNamingStyle                 = "kebab"
+}
+
+// Generate rule:
+// - @default -> Mất trong create, updaate
+// - @unique -> Có trong connect
+
 datasource db {
   provider = "postgres"
   url      = env("DATABASE_URL")
@@ -21,14 +39,25 @@ enum Gender {
   OTHER
 }
 
+// OK
 model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  name      String
-  password  String
-  gender    Gender
-  role      Role
-  phone     String
+  id       Int    @id @default(autoincrement())
+  /// @IsString()
+  email    String @unique
+  /// @IsString()
+  name     String
+  /// @IsString()
+  password String
+  /// @IsString()
+  phone    String
+
+  /// @DtoCreateOptional
+  /// @DtoUpdateOptional
+  gender Gender @default(value: OTHER)
+  /// @DtoCreateOptional
+  /// @DtoUpdateOptional
+  role   Role   @default(value: USER)
+
   // 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -43,8 +72,10 @@ model UserToken {
   user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
+  /// @IsString()
   token     String
   // 
+  /// @DtoReadOnly
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -52,91 +83,139 @@ model UserToken {
 }
 
 model Book {
-  id          Int         @id @default(autoincrement())
-  author      String
-  category    String
-  numOfPages  Int
-  publisher   String
-  price       Int
-  publishDate DateTime    @unique @default(now())
+  id       Int    @id @default(autoincrement())
+  /// @IsString()
+  author   String
+  /// @IsString()
+  category String
+
+  /// @IsNumber()
+  /// @Min(0)
+  numOfPages Int
+  /// @IsString()
+  publisher  String
+  /// @IsNumber()
+  /// @Min(0)
+  price      Int
+
+  /// @Type(() => Date){'class-transformer'}
+  /// @IsDate()
+  // @DtoCreateOptional
+  // @DtpUpdateOptional
+  publishDate DateTime @unique @default(now())
+  /// @IsString()
   coverType   String
-  Feedback    Feedback[]
-  UserCart    UserCart[]
-  OrderItem   OrderItem[]
+
+  Feedback  Feedback[]
+  UserCart  UserCart[]
+  OrderItem OrderItem[]
 }
 
 model Feedback {
+  id      Int    @id @default(autoincrement())
+  /// @IsString()
   comment String
-  star    Int // 1 - 5
-  // 
-  user    User   @relation(fields: [userId], references: [id])
-  userId  Int
-  book    Book   @relation(fields: [bookId], references: [id])
-  bookId  Int
 
-  @@id([userId, bookId])
+  /// @IsNumber()
+  /// @Max(5)
+  /// @Min(1)
+  star   Int // 1 - 5
+  // 
+  // NOTE: REQUIRE ON CREATE
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+  // NOTE: REQUIRE ON CREATE
+  bookId Int
+  book   Book @relation(fields: [bookId], references: [id])
 }
 
 model UserCart {
+  /// @IsNumber()
+  /// @Min(1)
   quantity Int
-  // 
-  user     User @relation(fields: [userId], references: [id])
-  userId   Int
-  book     Book @relation(fields: [bookId], references: [id])
-  bookId   Int
+
+  // NOTE: REQUIRE ON CREATE
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+  // NOTE: REQUIRE ON CREATE
+  bookId Int
+  book   Book @relation(fields: [bookId], references: [id])
 
   @@id([userId, bookId])
 }
 
 model Card {
-  id          Int      @id @default(autoincrement())
-  cvvCode     Int
-  cardCode    String
-  owner       String
+  id       Int    @id @default(autoincrement())
+  /// @IsNumber()
+  cvvCode  Int
+  /// @IsString()
+  cardCode String
+  /// @IsString()
+  owner    String
+
+  /// @Type(() => Date){'class-transformer'}
+  /// @IsDate()
   dateExpired DateTime
 
   PaymentTransaction PaymentTransaction?
 }
 
 model PaymentTransaction {
-  id        Int      @id @default(autoincrement())
-  content   String
-  createdAt DateTime @default(now())
-  method    String
+  id      Int    @id @default(autoincrement())
+  /// @IsString()
+  content String
+  /// @IsString()
+  method  String
 
   card    Card     @relation(fields: [cardId], references: [id])
   cardId  Int      @unique
   invoice Invoice? // 1 - 1
+
+  createdAt DateTime @default(now())
 }
 
 model Invoice {
   id          Int @id @default(autoincrement())
+  /// @IsNumber()
+  /// @Min(0)
   totalAmount Int
 
-  paymentTransaction   PaymentTransaction @relation(fields: [paymentTransactionId], references: [id])
-  paymentTransactionId Int                @unique
+  // NOTE: NOT REQUIRE ON CREATE
+  paymentTransaction   PaymentTransaction? @relation(fields: [paymentTransactionId], references: [id])
+  paymentTransactionId Int?                @unique
   order                Order?
 }
 
 model Order {
   id           Int    @id @default(autoincrement())
+  /// @IsString()
   address      String
+  /// @IsNumber()
+  /// @Min(0)
   shippingFees Int
 
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId Int     @unique
-  User      User    @relation(fields: [userId], references: [id])
+  // NOTE: NOT REQUIRE ON CREATE
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id])
+  invoiceId Int?     @unique
+  // NOTE: REQUIRE ON CREATE
+  User      User     @relation(fields: [userId], references: [id])
   userId    Int
 
   orderItem OrderItem[]
 }
 
 model OrderItem {
+  /// @IsNumber()
+  /// @Min(1)
   quantity Int
+  /// @IsNumber()
+  /// @Min(0)
   price    Int
 
+  // NOTE: REQUIRE ON CREATE
   book    Book  @relation(fields: [bookId], references: [id])
   bookId  Int
+  // NOTE: REQUIRE ON CREATE
   order   Order @relation(fields: [orderId], references: [id])
   orderId Int
 

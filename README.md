@@ -45,3 +45,5 @@ yarn test:cov
 ```bash
 gitlab-runner exec docker <name>
 ```
+
+npx prisma generate

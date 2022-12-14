@@ -1,14 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import {
-  IsBoolean,
-  IsDate,
-  IsNumber,
-  IsNumberString,
-  IsOptional,
-} from 'class-validator';
-import { toBoolean, toLowerCase, toNumber, trim, toDate } from './cast.utils';
+import { IsDate, IsNumber, IsOptional } from 'class-validator';
+import { toLowerCase, toNumber, toDate } from './cast.utils';
 
+/**
+ * STUB: Deprecated
+ */
 export class PaginationQueryDto {
   @Transform(({ value }) => toNumber(value, { default: 1, min: 1 }))
   @IsNumber()
@@ -52,22 +48,3 @@ export class PaginatedDto<TData> {
   // @ApiProperty({type: })
   data: TData[];
 }
-
-// export type ClassType<T = any> = new (...args: any[]) => T;
-
-// export function PaginatedRequestDto<T extends ClassType>(ResourceCls: T) {
-//   // class Paginated extends ResourceCls {
-//   //   @ApiProperty()
-//   //   public limit?: number;
-
-//   //   @ApiProperty()
-//   //   public offset?: number;
-//   // }
-//   // return Paginated;
-//   class Paginated extends PaginatedDto<T> {
-//     @IsOptional()
-//     data: T[];
-//   }
-
-//   return Paginated;
-// }

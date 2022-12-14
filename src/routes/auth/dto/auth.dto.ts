@@ -21,4 +21,12 @@ export class AuthorizationDto {
   secret: string;
 }
 
-export class SignInDto extends OmitType(UserEntity, ['name', 'id'] as const) {}
+export class SignInDto extends OmitType(UserEntity, [
+  'name',
+  'id',
+  'createdAt',
+  'updatedAt',
+  'gender',
+  'phone',
+  'role',
+] as const) {}

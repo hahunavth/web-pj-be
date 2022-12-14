@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-
 import { AppService } from '@/app.service';
 import configuration from '@/common/config/env.config';
 import { cfgModuleList } from '@/common/config/module.config';
@@ -18,6 +17,7 @@ import { AppController } from '@/app.controller';
 import { UserModule } from '@/routes/user/user.module';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import { AuthModule } from '@/routes/auth/auth.module';
+import { BookModule } from './routes/book/book.module';
 
 const cfg = {
   useCache: true,
@@ -35,8 +35,10 @@ const cfg = {
         cache: true,
       }),
       PrismaModule,
+      // NOTE: REGISTER MODULE HERE
       UserModule,
       AuthModule,
+      BookModule,
     ],
     [
       CacheModule.register({

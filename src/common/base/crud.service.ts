@@ -16,7 +16,7 @@ import { PrismaService } from '../prisma/prisma.service';
  * Copyright (c) 2022 HaVT
  */
 export abstract class CRUDService<M, C, U> {
-  constructor(protected readonly prismaDeligate: any) {
+  constructor(public readonly prismaDeligate: any) {
     if (!prismaDeligate) {
       throw new Error(
         'CRUDService: unknow prisma ModelDeligate :' + prismaDeligate,
@@ -24,11 +24,11 @@ export abstract class CRUDService<M, C, U> {
     }
   }
 
-  public async getAll(param?: any): Promise<M[]> {
+  public async findAll(param?: any): Promise<M[]> {
     return this.prismaDeligate.findMany(param);
   }
 
-  public async getOne(id: number): Promise<M | null> {
+  public async findOne(id: number): Promise<M | null> {
     return this.prismaDeligate.findUnique({ where: { id: id } });
   }
 
@@ -58,8 +58,6 @@ export abstract class CRUDService<M, C, U> {
     // use
     return this.prismaDeligate.create({
       data,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     });
   }
 
@@ -75,7 +73,7 @@ export abstract class CRUDService<M, C, U> {
     return this.prismaDeligate.update({ where: { id: id }, data });
   }
 
-  public async delete(id: number): Promise<M> {
+  public async remove(id: number): Promise<M> {
     // STUB: check exists, filter / map data, ... in callback fn
 
     return this.prismaDeligate.delete({ where: { id } });

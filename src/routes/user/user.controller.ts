@@ -18,7 +18,7 @@ import { PaginationQueryDto, PaginatedDto } from 'src/common/utils/query.dto';
 import { ApiPaginatedResponse } from 'src/common/utils/response.utils';
 
 @Controller()
-@ApiTags('users') // 👈 apply tags
+@ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -30,7 +30,7 @@ export class UserController {
   @Get('users/:id')
   @ApiOkResponse({ type: UserEntity })
   async getOneUser(@Param('id') id: number) {
-    return this.userService.getOne(id);
+    return this.userService.findOne(id);
   }
 
   @Get('users')
@@ -43,7 +43,7 @@ export class UserController {
   async getAllUser(
     @Query() query: PaginationQueryDto,
   ): Promise<PaginatedDto<UserModel>> {
-    const data = await this.userService.getAll();
+    const data = await this.userService.findAll();
     const result = new PaginatedDto<UserModel>();
     result.limit = query.limit;
     result.offset = (query.page - 1) * query.limit;
@@ -63,6 +63,6 @@ export class UserController {
 
   @Delete('users/:id')
   async deleteUser(@Param('id') id: number) {
-    return this.userService.delete(id);
+    return this.userService.remove(id);
   }
 }

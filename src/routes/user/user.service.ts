@@ -2,9 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { hash } from 'argon2';
-import { CRUDService } from '@/common/base/crud-service';
+import { CRUDService } from '@/common/base/crud.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
-import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService extends CRUDService<

@@ -2,9 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { hash } from 'argon2';
-import { CRUDService } from '@/common/base/base-service';
-import { UserEntity } from './entities/user.entity';
+import { CRUDService } from '@/common/base/crud-service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService extends CRUDService<
@@ -16,66 +16,39 @@ export class UserService extends CRUDService<
     super(prisma.user);
   }
 
-  async user(
-    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
-  ): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: userWhereUniqueInput,
-    });
-  }
-
-  async users(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.UserWhereUniqueInput;
-    where?: Prisma.UserWhereInput;
-    orderBy?: Prisma.UserOrderByWithRelationInput;
-  }): Promise<User[]> {
-    const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.user.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-    });
-  }
-
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    const userExists = await this.prisma.user.findFirst({
-      where: { email: data.email },
-    });
+  async create(data: CreateUserDto): Promise<User> {
+    // NOTE: CHECK USER EXISTS
+    const userExists = await this.checkExists(data);
     if (userExists) {
       throw new BadRequestException('User already exists');
     }
-    return this.prisma.user.create({
-      data: {
-        ...data,
-        password: await hash(data.password),
-      },
-    });
-  }
-
-  async updateUser(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.UserUpdateInput;
-  }): Promise<User> {
-    const { where, data } = params;
-    const updatedUser = {
-      ...data,
-    };
+    // NOTE: HASH PASSWORD BEFORE SAVE TO DB
     if (typeof data.password == 'string') {
-      updatedUser.password = await hash(data.password);
+      data.password = await hash(data.password);
     }
-    return this.prisma.user.update({
-      where,
-      data: { ...updatedUser },
-    });
+    // PARENT CLASS
+    return super.create(data);
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.delete({
-      where,
+  async update(id: number, data: UpdateUserDto): Promise<UpdateUserDto> {
+    // NOTE: HASH PASSWORD BEFORE SAVE TO DB
+    if (typeof data.password == 'string') {
+      data.password = await hash(data.password);
+    }
+    // PARENT CLASS
+    return super.update(id, data);
+  }
+
+  // Overrride
+  public async checkExists(
+    data: User | CreateUserDto | UpdateUserDto,
+    checkAttr?: string | string[],
+  ): Promise<boolean> {
+    const userExists = await this.prisma.user.findFirst({
+      where: { email: data.email },
     });
+    return !!userExists;
   }
 }
+
+console.table(Injectable.prototype);

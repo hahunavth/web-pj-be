@@ -56,10 +56,10 @@ const cfg = {
   providers: cfgModuleList<Provider>(
     [
       AppService,
-      // {
-      //   provide: APP_FILTER,
-      //   useClass: HttpExceptionFilter,
-      // },
+      {
+        provide: APP_FILTER,
+        useClass: HttpExceptionFilter,
+      },
     ],
     [
       {

@@ -1,15 +1,12 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
-  HttpException,
   Param,
   Patch,
   Post,
   Query,
-  UseFilters,
 } from '@nestjs/common';
 import { User as UserModel } from '@prisma/client';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -27,13 +24,13 @@ export class UserController {
 
   @Post('user')
   async signupUser(@Body() userData: CreateUserDto): Promise<UserModel> {
-    return this.userService.createUser(userData);
+    return this.userService.create(userData);
   }
 
   @Get('users/:id')
   @ApiOkResponse({ type: UserEntity })
   async getOneUser(@Param('id') id: number) {
-    return this.userService.user({ id });
+    return this.userService.getOne(id);
   }
 
   @Get('users')
@@ -46,7 +43,7 @@ export class UserController {
   async getAllUser(
     @Query() query: PaginationQueryDto,
   ): Promise<PaginatedDto<UserModel>> {
-    const data = await this.userService.users({});
+    const data = await this.userService.getAll();
     const result = new PaginatedDto<UserModel>();
     result.limit = query.limit;
     result.offset = (query.page - 1) * query.limit;
@@ -61,15 +58,11 @@ export class UserController {
     @Param('id') id: number,
     @Body() body: UpdateUserDto,
   ): Promise<UpdateUserDto> {
-    return this.userService.updateUser({ where: { id }, data: body });
+    return this.userService.update(id, body);
   }
 
   @Delete('users/:id')
-  // @UseFilters(HttpExceptionFilter)
   async deleteUser(@Param('id') id: number) {
-    // try {
-    // throw new BadRequestException();
-    return this.userService.deleteUser({ id });
-    // } catch (e) {}
+    return this.userService.delete(id);
   }
 }

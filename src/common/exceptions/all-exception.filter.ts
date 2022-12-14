@@ -33,6 +33,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception: exception,
     };
 
+    console.error(exception);
+
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
 }

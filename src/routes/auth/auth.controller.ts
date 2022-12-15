@@ -35,6 +35,9 @@ export class AuthController {
   @Get('profile')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
+  @ApiOperation({
+    summary: ' - Example: role cần đăng nhập mới truy cập được',
+  })
   // @ApiBody({ type: AuthorizationDto })
   getProfile() {
     return 'profile';
@@ -42,10 +45,17 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('logout')
+  @ApiOperation({
+    summary: ' - Đăng xuất: vô hiệu access và refresh token',
+  })
   logout(@Body() req: AuthLogoutDto) {
     this.authService.logout(req.id);
   }
 
+  @ApiOperation({
+    summary:
+      ' - Access token bị expired sau 1 khoảng thời gian, cần refresh token để generate lại access token mới',
+  })
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
   @ApiOkResponse({ type: AuthTokenDto })

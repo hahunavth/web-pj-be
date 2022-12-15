@@ -9,7 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { User as UserModel } from '@prisma/client';
-import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
@@ -23,6 +29,12 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { queryByAttributes } from 'src/common/base/query.mapper';
 import { paginateResponse } from 'src/common/base/response.mapper';
 
+// TODO: Khi tạo ng dùng vs role là user sẽ tạo luôn giỏ hàng
+// - Update: check chuyển role từ user sang admin
+//              -> xóa giỏ hàng
+//           check chuyển role từ admin sang user
+//              -> do nth
+//  - Delete: Check và xóa giỏ hàng (nếu có)
 @Controller()
 @ApiTags('users')
 export class UserController {
@@ -32,16 +44,25 @@ export class UserController {
   ) {}
 
   @Post('user')
+  @ApiOperation({
+    summary: ' - Tạo người dùng mới (Role: USER | ADMIN)',
+  })
   async signupUser(@Body() userData: CreateUserDto): Promise<UserModel> {
     return this.userService.create(userData);
   }
 
+  @ApiOperation({
+    summary: ' - GetOne: Không lấy thông tin giỏ hàng',
+  })
   @Get('users/:id')
   @ApiOkResponse({ type: UserEntity })
   async getOneUser(@Param('id') id: number) {
     return this.userService.findOne(id);
   }
 
+  @ApiOperation({
+    summary: ' - GetAll: Không lấy thông tin giỏ hàng',
+  })
   @Get('users')
   @ApiQuery({ type: FilterUserDto })
   async getAllUser(
@@ -66,6 +87,10 @@ export class UserController {
     });
   }
 
+  @ApiOperation({
+    summary:
+      'TODO - Update: Check chuyển role từ user sang admin -> xóa các sản phảm trong giỏ hàng; Check chuyển role từ admin sang user -> do nothing',
+  })
   @Patch('users/:id')
   @ApiOkResponse({ type: UserEntity })
   async updateUser(
@@ -75,6 +100,9 @@ export class UserController {
     return this.userService.update(id, body);
   }
 
+  @ApiOperation({
+    summary: 'TODO - Delete: Check và xóa giỏ hàng (nếu có)',
+  })
   @Delete('users/:id')
   async deleteUser(@Param('id') id: number) {
     return this.userService.remove(id);

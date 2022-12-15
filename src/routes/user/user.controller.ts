@@ -36,7 +36,7 @@ import { paginateResponse } from 'src/common/base/response.mapper';
 //              -> do nth
 //  - Delete: Check và xóa giỏ hàng (nếu có)
 @Controller()
-@ApiTags('users')
+@ApiTags('User')
 export class UserController {
   constructor(
     private readonly userService: UserService,

@@ -23,7 +23,7 @@ import { FilterBookDto } from './dto/filter-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 
 @Controller('book')
-@ApiTags('books')
+@ApiTags('Book')
 export class BookController {
   constructor(
     private readonly service: BookService,

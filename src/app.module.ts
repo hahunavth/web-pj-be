@@ -19,6 +19,8 @@ import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import { AuthModule } from './routes/auth/auth.module';
 import { BookModule } from './routes/book/book.module';
 import { FeedbackModule } from './routes/feedback';
+import { OrderModule } from './routes/order';
+import { InvoiceModule } from './routes/invoice';
 
 const cfg = {
   useCache: true,
@@ -41,6 +43,8 @@ const cfg = {
       AuthModule,
       BookModule,
       FeedbackModule,
+      OrderModule,
+      InvoiceModule,
     ],
     [
       CacheModule.register({

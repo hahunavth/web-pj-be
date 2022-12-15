@@ -40,6 +40,15 @@ async function bootstrap() {
     .setDescription('The book shop API description')
     .setVersion('1.0')
     .addBearerAuth()
+    .addTag('default')
+    .addTag('User')
+    .addTag('Auth')
+    .addTag('Book')
+    .addTag(
+      'Invoice (Generated)',
+      'Các thông tin về hóa đơn, thẻ, giao dịch sau khi thanh toán',
+    )
+    .addTag('Order (Generated)', 'Thông tin về đơn hàng Order, OrderItem')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

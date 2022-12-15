@@ -1,5 +1,3 @@
-
-  export class ConnectCardDto {
-    id: number;
-  }
-  
+export class ConnectCardDto {
+  id: number;
+}

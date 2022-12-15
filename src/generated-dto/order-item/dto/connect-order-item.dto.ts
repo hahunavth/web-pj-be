@@ -1,5 +1,1 @@
-
-  export class ConnectOrderItemDto {
-    
-  }
-  
+export class ConnectOrderItemDto {}

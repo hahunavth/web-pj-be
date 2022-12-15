@@ -1,6 +1,4 @@
-
-  export class ConnectPaymentTransactionDto {
-    id?: number;
-cardId?: number;
-  }
-  
+export class ConnectPaymentTransactionDto {
+  id?: number;
+  cardId?: number;
+}

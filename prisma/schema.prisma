@@ -10,7 +10,7 @@ generator nestjsDto {
   output                          = "../src/generated-dto/"
   outputToNestJsResourceStructure = "true"
   exportRelationModifierClasses   = "true"
-  reExport                        = "false"
+  reExport                        = "true"
   createDtoPrefix                 = "Create"
   updateDtoPrefix                 = "Update"
   dtoSuffix                       = "Dto"
@@ -102,7 +102,7 @@ model Book {
   /// @IsDate()
   // @DtoCreateOptional
   // @DtpUpdateOptional
-  publishDate DateTime @unique @default(now())
+  publishDate DateTime @default(now())
   /// @IsString()
   coverType   String
 

@@ -27,9 +27,8 @@ import {
 } from '../../generated-dto/order/dto';
 
 @ApiTags('Order (Generated)')
-@Controller("order")
-export class OrderController 
-{
+@Controller('orders')
+export class OrderController {
   constructor(
     private readonly service: OrderService,
     private prisma: PrismaService,

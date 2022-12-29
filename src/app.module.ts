@@ -21,6 +21,7 @@ import { BookModule } from './routes/book/book.module';
 import { FeedbackModule } from './routes/feedback';
 import { OrderModule } from './routes/order';
 import { InvoiceModule } from './routes/invoice';
+import { CartModule } from './routes/cart';
 
 const cfg = {
   useCache: true,
@@ -45,6 +46,7 @@ const cfg = {
       FeedbackModule,
       OrderModule,
       InvoiceModule,
+      CartModule,
     ],
     [
       CacheModule.register({

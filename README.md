@@ -92,4 +92,5 @@ gitlab-runner exec docker <name>
 
 - [ ] Viết API liên quan đến quy trình bán hàng
 - [ ] Viết API thống kê
+- [ ] Deploy
 - [ ] Crawl dữ liệu sách

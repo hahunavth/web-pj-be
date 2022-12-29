@@ -40,6 +40,7 @@ COPY package*.json ./
 COPY yarn.lock ./
 COPY prisma ./prisma/
 RUN yarn --only=production
+RUN yarn prisma:generate
 COPY . .
 COPY --from=development /usr/src/app/dist ./dist
 CMD ["node", "/usr/src/app/dist/src/main.js"]

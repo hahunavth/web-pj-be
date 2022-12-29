@@ -22,7 +22,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { FilterBookDto } from './dto/filter-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 
-@Controller('book')
+@Controller('books')
 @ApiTags('Book')
 export class BookController {
   constructor(

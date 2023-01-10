@@ -15,8 +15,7 @@ export class InvoiceService extends CRUDService<
   InvoiceEntity,
   CreateInvoiceDto,
   UpdateInvoiceDto
->
-{
+> {
   constructor(prisma: PrismaService) {
     super(prisma.invoice);
   }

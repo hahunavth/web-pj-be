@@ -10,7 +10,7 @@ import {
   HttpStatus,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import {
   ApiGetAllQuery,
@@ -33,7 +33,7 @@ import {
 import { SetUserCartDto } from './dto/SetUserCartDto';
 import { count } from 'console';
 
-@ApiTags('Cart (Generated)')
+@ApiTags('Cart')
 @Controller()
 export class CartController {
   constructor(

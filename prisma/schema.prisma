@@ -1,9 +1,14 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Định nghĩa database schema
+
 generator client {
   provider = "prisma-client-js"
 }
+
+// Config để auto gen typescript type từ file schema này.
+// Khi không dùng đến cần commment lại
 
 // generator nestjsDto {
 //   provider                        = "prisma-generator-nestjs-dto"
@@ -40,6 +45,9 @@ enum Gender {
 }
 
 // OK
+// NOTE:
+//  comment với /// là để định nghĩa thêm trong khi generate typescript type
+//  comment với // là comment bình thường
 model User {
   id       Int    @id @default(autoincrement())
   /// @IsString()
@@ -58,10 +66,10 @@ model User {
   /// @DtoUpdateOptional
   role   Role   @default(value: USER)
 
-  // 
+  //
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  // 
+  //
   Order     Order[]
   Feedback  Feedback[]
   UserCart  UserCart[]
@@ -74,7 +82,7 @@ model UserToken {
 
   /// @IsString()
   token     String
-  // 
+  //
   /// @DtoReadOnly
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -123,7 +131,7 @@ model Feedback {
   /// @Max(5)
   /// @Min(1)
   star   Int // 1 - 5
-  // 
+  //
   // NOTE: REQUIRE ON CREATE
   userId Int
   user   User @relation(fields: [userId], references: [id])
@@ -135,17 +143,17 @@ model Feedback {
   updatedAt DateTime @updatedAt
 }
 
+// TODO: Rename UserCart -> UserCartItem
 model UserCart {
   /// @IsNumber()
   /// @Min(1)
   quantity Int
 
-  // NOTE: REQUIRE ON CREATE
+  // NOTE: UserCartItem sẽ bị xóa khi user hoặc book bị xóa.
   userId Int
-  user   User @relation(fields: [userId], references: [id])
-  // NOTE: REQUIRE ON CREATE
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bookId Int
-  book   Book @relation(fields: [bookId], references: [id])
+  book   Book @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([userId, bookId])
 }

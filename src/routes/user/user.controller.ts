@@ -100,9 +100,7 @@ export class UserController {
     return this.userService.update(id, body);
   }
 
-  @ApiOperation({
-    summary: 'TODO - Delete: Check và xóa giỏ hàng (nếu có)',
-  })
+  @ApiOperation({})
   @Delete('users/:id')
   async deleteUser(@Param('id') id: number) {
     return this.userService.remove(id);

@@ -1,37 +1,33 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  ParseIntPipe,
+  Get,
   HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { paginateResponse } from 'src/common/base/response.mapper';
 import {
   ApiGetAllQuery,
   AttrQuery,
   PaginateQuery,
   TimeQuery,
 } from '../../common/base/base.decorator';
-import { paginateResponse } from 'src/common/base/response.mapper';
 
 import { PaginateReqQueryT } from '../../common/base/base.dto';
 import { PrismaService } from '../../common/prisma/prisma.service';
 
-import { CartService } from './cart.service';
-import { UserCartEntity } from '../../generated-dto/user-cart/entities';
 import {
   CreateUserCartDto,
   UpdateUserCartDto,
-  ConnectUserCartDto,
 } from '../../generated-dto/user-cart/dto';
-import { SetUserCartDto } from './dto/SetUserCartDto';
-import { count } from 'console';
+import { CartService } from './cart.service';
 
 @ApiTags('Cart')
 @Controller()

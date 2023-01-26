@@ -1,0 +1,5 @@
+[
+  { "method": "standard", "name": "Standard", "price": 1000 },
+  { "method": "express", "name": "Express", "price": 2000 },
+  { "method": "nextday", "name": "Next Day", "price": 3000 }
+]

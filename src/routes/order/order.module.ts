@@ -3,10 +3,11 @@ import { PrismaModule } from '../../common/prisma/prisma.module';
 
 import { OrderService } from './order.service';
 import { OrderController } from './order.controller';
+import { AddressService } from '../address/address.service';
 
 @Module({
   imports: [PrismaModule],
-  providers: [OrderService],
+  providers: [OrderService, AddressService],
   exports: [OrderService],
   controllers: [OrderController],
 })

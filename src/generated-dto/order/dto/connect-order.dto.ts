@@ -1,6 +1,4 @@
-
-  export class ConnectOrderDto {
-    id?: number;
-invoiceId?: number;
-  }
-  
+export class ConnectOrderDto {
+  id?: number;
+  invoiceId?: number;
+}

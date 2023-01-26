@@ -22,6 +22,7 @@ import { FeedbackModule } from './routes/feedback';
 import { OrderModule } from './routes/order';
 import { InvoiceModule } from './routes/invoice';
 import { CartModule } from './routes/cart';
+import { AddressModule } from './routes/address/address.module';
 
 const cfg = {
   useCache: true,
@@ -47,6 +48,7 @@ const cfg = {
       OrderModule,
       InvoiceModule,
       CartModule,
+      AddressModule,
     ],
     [
       CacheModule.register({

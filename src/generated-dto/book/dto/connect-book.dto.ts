@@ -1,3 +1,6 @@
-export class ConnectBookDto {
-  id: number;
-}
+
+  export class ConnectBookDto {
+    id?: number;
+code?: string;
+  }
+  

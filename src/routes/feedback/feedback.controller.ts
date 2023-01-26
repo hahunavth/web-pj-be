@@ -22,10 +22,10 @@ import { PrismaService } from '../../common/prisma/prisma.service';
 import { FeedbackService } from './feedback.service';
 import { FeedbackEntity } from '../../generated-dto/feedback/entities';
 import {
-  CreateFeedbackDto,
   UpdateFeedbackDto,
   ConnectFeedbackDto,
 } from '../../generated-dto/feedback/dto';
+import { CreateFeedbackDto } from '../../alt-dto/feedback/dto/create-feedback.dto';
 
 @ApiTags('Feedback (Generated)')
 @Controller('feedback')

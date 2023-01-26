@@ -37,7 +37,7 @@ export abstract class CRUDService<M, C, U> {
       take: paginate.limit,
       where: {
         ...attrQuery,
-        ...timeQuery.where,
+        ...timeQuery?.where,
       },
     });
 

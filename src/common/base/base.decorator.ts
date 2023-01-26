@@ -73,12 +73,16 @@ export const TimeQuery = createParamDecorator(
       result.endAt = new Date(endAt);
     }
 
-    const list = [];
+    const list: {
+      gte?: Date;
+      lte?: Date;
+    }[] = [];
+
     result.where = {};
     if (startAt) {
       list.push({ gte: result.startAt });
     }
-    if (endAt) {
+    if (result.endAt) {
       list.push({ lte: result.endAt });
     }
     if (list.length == 2) {

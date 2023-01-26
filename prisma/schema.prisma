@@ -97,6 +97,34 @@ model Book {
   /// @IsString()
   category String
 
+  /// @IsString()
+  /// @IsOptional()
+  coverUrl String
+
+  /// @IsString()
+  /// @IsOptional()
+  coverForm String
+  /// @IsString()
+  /// @IsOptional()
+  code      String @unique
+  /// @IsString()
+  /// @IsOptional()
+  supplier  String
+  /// @IsString()
+  /// @IsOptional()
+  language  String
+  /// @IsFloat()
+  /// @IsOptional()
+  weight    Float
+  /// @IsFloat()
+  /// @IsOptional()
+  width     Float
+  /// @IsFloat()
+  /// @IsOptional()
+  height    Float
+
+  description String
+
   /// @IsNumber()
   /// @Min(0)
   numOfPages Int

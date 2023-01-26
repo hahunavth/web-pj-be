@@ -51,10 +51,10 @@ export class AuthService {
   private async validateUsernameAndPassword(
     email: string,
     password: string,
-  ): Promise<{ error?: string; user?: UserEntity }> {
-    const result = {
-      user: null,
-      error: null,
+  ): Promise<{ error?: string; user?: Omit<UserEntity, 'password'> }> {
+    const result: { error?: string; user?: Omit<UserEntity, 'password'> } = {
+      user: undefined,
+      error: undefined,
     };
 
     const user = await this.prisma.user.findUnique({

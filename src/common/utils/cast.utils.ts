@@ -28,7 +28,7 @@ export function toBoolean(value: string): boolean {
 export function toNumber(value: string, opts: ToNumberOptions = {}): number {
   let newValue: number = Number.parseInt(value || String(opts.default), 10);
 
-  if (Number.isNaN(newValue)) {
+  if (Number.isNaN(newValue) && opts.default) {
     newValue = opts.default;
   }
 
@@ -36,7 +36,9 @@ export function toNumber(value: string, opts: ToNumberOptions = {}): number {
     if (newValue < opts.min) {
       newValue = opts.min;
     }
+  }
 
+  if (opts.max) {
     if (newValue > opts.max) {
       newValue = opts.max;
     }

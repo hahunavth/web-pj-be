@@ -6,7 +6,7 @@ export class ServerConfig {
 }
 
 export default (): ServerConfig => ({
-  port: parseInt(process.env.PORT, 10) || 3000,
+  port: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
   useCache: process.env.USE_CACHE == 'true',
   jwtSecret: process.env.JWT_SECRET || '',
   jwtRefreshSecret: process.env.JwT_REFRESH_SECRET || '',

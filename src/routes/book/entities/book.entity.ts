@@ -16,6 +16,25 @@ export class BookEntity implements Book {
   author: string;
   @IsString()
   category: string;
+  @IsString()
+  coverUrl: string;
+  @IsString()
+  coverForm: string;
+  @IsString()
+  code: string;
+  @IsString()
+  supplier: string;
+  @IsString()
+  language: string;
+  @IsNumber()
+  weight: number;
+  @IsNumber()
+  width: number;
+  @IsNumber()
+  height: number;
+  @IsString()
+  description: string;
+
   @IsNumber()
   numOfPages: number;
   @IsString()

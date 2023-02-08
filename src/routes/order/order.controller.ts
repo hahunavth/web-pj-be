@@ -29,6 +29,7 @@ import { CheckoutDto } from './dto/checkout.dto';
 import * as deliveryMethods from './constants/delivery-methods.json';
 import { AddressService } from '../address/address.service';
 import { PayDto } from './dto/pay.dto';
+import { CofnirmDto } from './dto/confirm.dto';
 
 @ApiTags('Order (Generated)')
 @Controller('orders')
@@ -273,6 +274,38 @@ export class OrderController {
         total: totalAmount,
         paymentTransaction,
         invoice,
+      },
+    };
+  }
+
+  @ApiOperation({ summary: 'api confirm invoice for admin' })
+  @Post('confirm')
+  async confirm(@Body() body: CofnirmDto) {
+    const { orderId, status } = body;
+
+    const order = await this.prisma.order.findUnique({
+      where: { id: orderId },
+    });
+
+    if (!order) {
+      throw new Error('Order not found');
+    }
+
+    if (order.status !== 'PENDING') {
+      throw new Error('Order is not paid');
+    }
+
+    await this.prisma.order.update({
+      where: { id: orderId },
+      data: {
+        status: 'CONFIRMED',
+      },
+    });
+
+    return {
+      data: {
+        ...order,
+        status: 'confirmed',
       },
     };
   }

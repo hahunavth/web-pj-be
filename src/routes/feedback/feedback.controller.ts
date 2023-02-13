@@ -8,7 +8,7 @@ import {
   Delete,
   BadRequestException,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import {
   ApiGetAllQuery,
@@ -17,15 +17,13 @@ import {
   TimeQuery,
 } from '../../common/base/base.decorator';
 import { PaginateReqQueryT } from '../../common/base/base.dto';
-import { PrismaService } from '../../common/prisma/prisma.service';
 
+import { PrismaService } from '../../common/prisma/prisma.service';
 import { FeedbackService } from './feedback.service';
-import { FeedbackEntity } from '../../generated-dto/feedback/entities';
-import {
-  UpdateFeedbackDto,
-  ConnectFeedbackDto,
-} from '../../generated-dto/feedback/dto';
+
+import { UpdateFeedbackDto } from '../../generated-dto/feedback/dto';
 import { CreateFeedbackDto } from '../../alt-dto/feedback/dto/create-feedback.dto';
+import { FeedbackQueryDto } from './dto/feedbackQuery.dto';
 
 @ApiTags('Feedback (Generated)')
 @Controller('feedback')
@@ -36,10 +34,11 @@ export class FeedbackController {
   ) {}
 
   @Get()
-  @ApiGetAllQuery(UpdateFeedbackDto)
+  @ApiGetAllQuery(FeedbackQueryDto)
+  @ApiOperation({ summary: 'Danh sách đánh giá' })
   async findAll(
     @PaginateQuery() paginate: PaginateReqQueryT,
-    @AttrQuery(UpdateFeedbackDto) attrQuery,
+    @AttrQuery(FeedbackQueryDto) attrQuery,
     @TimeQuery() timeQuery,
   ) {
     return this.service.findAll(paginate, timeQuery, attrQuery);
@@ -50,6 +49,7 @@ export class FeedbackController {
     return this.service.findOne(+id);
   }
 
+  @ApiOperation({ summary: 'Thêm đánh giá mới' })
   @Post()
   async create(@Body() createFeedbackDto: CreateFeedbackDto) {
     // check user and book exists, if not reaturn error
@@ -71,6 +71,7 @@ export class FeedbackController {
     return this.service.create(createFeedbackDto);
   }
 
+  @ApiOperation({ summary: 'Cập nhật đánh giá' })
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -79,6 +80,7 @@ export class FeedbackController {
     return this.service.update(+id, updateFeedbackDto);
   }
 
+  @ApiOperation({ summary: 'Xóa đánh giá' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id);

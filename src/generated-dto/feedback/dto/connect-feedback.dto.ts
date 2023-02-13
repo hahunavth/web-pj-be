@@ -1,5 +1,3 @@
-
-  export class ConnectFeedbackDto {
-    id: number;
-  }
-  
+export class ConnectFeedbackDto {
+  id: number;
+}

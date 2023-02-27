@@ -16,6 +16,12 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
+default:
+  image: node:latest
+  before_script:
+    - apt-get update -qq && apt-get install -y curl
+    - curl -L https://fly.io/install.sh | sh
+
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
@@ -23,17 +29,19 @@ stages:          # List of stages for jobs, and their order of execution
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
-  image: nodejs:16
-  before_script:
-    - apt-get update -qq && apt-get install -y curl
-    - curl -L https://fly.io/install.sh | sh
   script:
     - yarn install
+  artifacts:
+    paths:
+      - node_modules
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
     - yarn test
+  artifacts:
+    paths:
+      - node_modules
 
 # lint-test-job:   # This job also runs in the test stage.
 #   stage: test    # It can run at the same time as unit-test-job (in parallel).

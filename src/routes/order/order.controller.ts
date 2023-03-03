@@ -31,7 +31,7 @@ import { AddressService } from '../address/address.service';
 import { PayDto } from './dto/pay.dto';
 import { CofnirmDto } from './dto/confirm.dto';
 
-@ApiTags('Order (Generated)')
+@ApiTags('Order')
 @Controller('orders')
 export class OrderController {
   constructor(
@@ -73,35 +73,6 @@ export class OrderController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id);
-  }
-
-  @ApiOperation({ summary: 'api lấy danh sách các phương thức thanh toán' })
-  @Get('paymentmethod')
-  getPaymentMethod() {
-    return {
-      data: [
-        { method: 'cash', name: 'Cash' },
-        { method: 'credit', name: 'Credit' },
-        { method: 'debit', name: 'Debit' },
-        { method: 'paypal', name: 'Paypal' },
-        { method: 'applepay', name: 'Apple Pay' },
-        { method: 'googlepay', name: 'Google Pay' },
-        { method: 'venmo', name: 'Venmo' },
-        { method: 'bitcoin', name: 'Bitcoin' },
-      ],
-    };
-  }
-
-  @ApiOperation({ summary: 'api lấy danh sách các phương thức vận chuyển' })
-  @Get('shippingmethod/:cityId/:districtId')
-  getShippingMethod(
-    @Param('cityId') cityId: string,
-    @Param('districtId') districtId: string,
-  ) {
-    return {
-      // TODO: get shipping method from cityId and districtId
-      data: deliveryMethods,
-    };
   }
 
   @ApiOperation({
@@ -164,7 +135,12 @@ export class OrderController {
       data: {
         userId,
         address: address + strAddr,
-        shippingFees: method.price,
+        shippingFees: this.service.getShippingFee(
+          cityCode,
+          districtCode,
+          wardCode,
+          method.price,
+        ),
       },
     });
 

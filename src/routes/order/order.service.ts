@@ -15,9 +15,17 @@ export class OrderService extends CRUDService<
   OrderEntity,
   CreateOrderDto,
   UpdateOrderDto
->
-{
+> {
   constructor(prisma: PrismaService) {
     super(prisma.order);
+  }
+
+  public getShippingFee(
+    cityCode: number,
+    districtCode: number,
+    wardCode: number,
+    deliveryPrice: number,
+  ) {
+    return deliveryPrice;
   }
 }

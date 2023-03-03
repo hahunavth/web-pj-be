@@ -15,6 +15,7 @@ export function paginateResponse<T>({
   endAt,
   startAt,
   filter,
+  sort,
 }: ApiPaginateSuccess<T>) {
   return {
     message: message || 'Successfully',
@@ -24,6 +25,7 @@ export function paginateResponse<T>({
     startAt,
     endAt,
     filter,
+    sort,
     data,
   };
 }

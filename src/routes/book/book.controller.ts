@@ -21,6 +21,10 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { FilterBookDto } from './dto/filter-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { SortBookDto } from './dto/sort-book.dto';
+
+import { FilterBookQuery, SortBookQuery } from './book.decorator';
+import { AllBookQueryDto } from './dto/all-book-query.dto';
 
 @Controller('books')
 @ApiTags('Book')
@@ -36,13 +40,21 @@ export class BookController {
   }
 
   @Get()
-  @ApiGetAllQuery(FilterBookDto)
+  @ApiGetAllQuery(AllBookQueryDto)
   async findAll(
     @PaginateQuery() paginate: PaginateReqQueryT,
-    @AttrQuery(FilterBookDto) attrQuery,
+    @AttrQuery(UpdateBookDto) attrQuery,
     @TimeQuery() timeQuery,
+    @FilterBookQuery() bookFilter: FilterBookDto,
+    @SortBookQuery() bookSort: SortBookDto,
   ) {
-    return this.service.findAll(paginate, timeQuery, attrQuery);
+    return this.service.findAndFilterAll(
+      paginate,
+      timeQuery,
+      attrQuery,
+      bookFilter,
+      bookSort,
+    );
   }
 
   @Get(':id')

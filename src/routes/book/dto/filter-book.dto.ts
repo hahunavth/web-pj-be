@@ -2,25 +2,22 @@ import { Prisma } from '@prisma/client';
 import { IsString, IsNumber, IsDate, IsOptional } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import { PaginateReqQuery } from '../../../common/base/base.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class FilterBookDto
-  // extends PaginateReqQuery
-  implements Prisma.BookWhereInput
-{
-  // constructor(obj) {
-  // super(obj);
-  // this.author = obj?.author;
-  // this.category = obj?.category;
-  // this.publisher = obj?.publisher;
-  // }
+export class FilterBookDto {
+  constructor(query: any) {
+    this.maxPrice = query.maxPrice
+      ? Number.parseInt(query.maxPrice)
+      : undefined;
+    this.minPrice = query.minPrice
+      ? Number.parseInt(query.minPrice)
+      : undefined;
+  }
 
   @IsOptional()
-  @IsString()
-  public author?: string = undefined;
+  @IsNumber()
+  public maxPrice?: number = undefined;
   @IsOptional()
-  @IsString()
-  public category?: string = undefined;
-  @IsOptional()
-  @IsString()
-  public publisher?: string = undefined;
+  @IsNumber()
+  public minPrice?: number = undefined;
 }

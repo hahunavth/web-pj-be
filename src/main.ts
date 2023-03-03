@@ -44,10 +44,6 @@ async function bootstrap() {
     .addTag('User')
     .addTag('Auth')
     .addTag('Book')
-    .addTag(
-      'Invoice (Generated)',
-      'Các thông tin về hóa đơn, thẻ, giao dịch sau khi thanh toán',
-    )
     .addTag('Order', 'Thông tin về đơn hàng Order, OrderItem')
     .build();
   const document = SwaggerModule.createDocument(app, config);

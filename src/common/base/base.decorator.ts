@@ -1,3 +1,4 @@
+import { FilterBookDto } from './../../routes/book/dto/filter-book.dto';
 import { applyDecorators, Type } from '@nestjs/common';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import {
@@ -10,6 +11,7 @@ import {
 import * as moment from 'moment';
 import { objAttrMapper } from '../utils/obj-attr.mapper';
 import { PaginateReqQueryT } from './base.dto';
+import { UpdateOrderDto } from 'src/generated-dto/order/dto';
 
 /*
  * @brief Transform request param / query decorator

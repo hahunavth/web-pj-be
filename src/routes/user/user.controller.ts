@@ -24,7 +24,6 @@ import { PaginationQueryDto, PaginatedDto } from 'src/common/utils/query.dto';
 // import { ApiPaginatedResponse } from 'src/common/utils/response.utils';
 import { PaginateReqQueryT } from 'src/common/base/base.dto';
 import { PaginateQuery } from 'src/common/base/base.decorator';
-import { FilterBookDto } from '../book/dto/filter-book.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { queryByAttributes } from 'src/common/base/query.mapper';
 import { paginateResponse } from 'src/common/base/response.mapper';

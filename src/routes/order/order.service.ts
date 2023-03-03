@@ -8,6 +8,8 @@ import {
   UpdateOrderDto,
   ConnectOrderDto,
 } from '../../generated-dto/order/dto';
+import { TimeQueryT } from 'src/common/base/base.decorator';
+import { PaginateReqQueryT, KV } from 'src/common/base/base.dto';
 // import { Order as GeneratedOrder} from '../../../database/entity/generated/';
 
 @Injectable()

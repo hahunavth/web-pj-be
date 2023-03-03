@@ -10,6 +10,7 @@ export type PaginateT = {
   limit?: number | undefined;
   offset?: number | undefined;
   count: number | undefined;
+  sort?: any;
 };
 
 export type PaginateReqQueryT = {

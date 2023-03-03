@@ -8,7 +8,7 @@
 ```bash
 .
 ├── prisma               # Object Relational Mapping
-│   ├── schema.prisma       # File định nghĩa schema db   
+│   ├── schema.prisma       # File định nghĩa schema db
 │   └── seed.ts             # seed db (chưa làm)
 ├── README.md
 ├── src
@@ -47,6 +47,30 @@ cd project_dir
 yarn
 ```
 
+### Setup env and database
+#### Setup env variables
+
+ 1. Copy file `.env.example` and rename to `.env`
+ 2. Open file `.env` and set `DATABASE_URL` to your database connection url
+
+#### Setup database
+  1. Check the status of migrations in the production/staging database
+    ```shell
+    npx prisma migrate status
+    ```
+  2. If db table is exists, run migrate script:
+    ```shell
+    npx prisma migrate dev
+    ```
+    Or push the Prisma schema state to the database
+    ```shell
+    npx prisma db push
+    ```
+  3. Seed db
+    ```shell
+    npx prisma db seed
+    ```
+  For more info: `npx prisma migrate help`
 ### Running the app
 
 ```bash
@@ -76,6 +100,7 @@ yarn test:cov
 ```
 
 ### CI/CD
+CI run when push
 ```bash
 gitlab-runner exec docker <name>
 ```
@@ -89,8 +114,3 @@ gitlab-runner exec docker <name>
 ```
 
 ## Todo
-
-- [ ] Viết API liên quan đến quy trình bán hàng
-- [ ] Viết API thống kê
-- [ ] Deploy
-- [ ] Crawl dữ liệu sách

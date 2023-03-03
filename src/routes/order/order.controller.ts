@@ -40,7 +40,7 @@ export class OrderController {
     private addressService: AddressService,
   ) {}
 
-  @ApiOperation({ summary: 'for dev' })
+  @ApiOperation({ summary: 'for dev', deprecated: true })
   @Get()
   @ApiGetAllQuery(UpdateOrderDto)
   async findAll(
@@ -57,19 +57,19 @@ export class OrderController {
     return this.service.findOne(+id);
   }
 
-  @ApiOperation({ summary: 'for dev' })
+  @ApiOperation({ summary: 'for dev', deprecated: true })
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
     return this.service.create(createOrderDto);
   }
 
-  @ApiOperation({ summary: 'for dev' })
+  @ApiOperation({ summary: 'for dev', deprecated: true })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.service.update(+id, updateOrderDto);
   }
 
-  @ApiOperation({ summary: 'for dev' })
+  @ApiOperation({ summary: 'for dev', deprecated: true })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id);

@@ -23,6 +23,7 @@ import { OrderModule } from './routes/order';
 import { InvoiceModule } from './routes/invoice';
 import { CartModule } from './routes/cart';
 import { AddressModule } from './routes/address/address.module';
+import { PaymentModule } from './routes/payment/payment.module';
 
 const cfg = {
   useCache: true,
@@ -40,13 +41,13 @@ const cfg = {
         cache: true,
       }),
       PrismaModule,
-      // NOTE: REGISTER MODULE HERE
       UserModule,
       AuthModule,
       BookModule,
       FeedbackModule,
       OrderModule,
-      InvoiceModule,
+      PaymentModule,
+      // InvoiceModule NOTE: use order module instead
       CartModule,
       AddressModule,
     ],
@@ -82,8 +83,4 @@ const cfg = {
     [cfg.useCache],
   ),
 })
-export class AppModule {
-  // constructor(private readonly cfgService: ConfigService) {
-  //   console.log(this.cfgService);
-  // }
-}
+export class AppModule {}

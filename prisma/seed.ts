@@ -1,4 +1,5 @@
 import { Book, PrismaClient } from '@prisma/client';
+import { hash } from 'argon2';
 import { CreateBookDto } from 'src/generated-dto/book/dto';
 import { CreateUserDto } from 'src/generated-dto/user/dto';
 
@@ -209,16 +210,33 @@ const userList: CreateUserDto[] = [
   },
 ];
 
-async function main() {
+async function createUsers() {
   const nUser = await prisma.user.count();
+  const userListWithHashPassword = await Promise.all(
+    userList.map(async (user) => {
+      return {
+        ...user,
+        password: await hash(user.password),
+      };
+    }),
+  );
   if (nUser == 0) {
-    await prisma.user.createMany({ data: userList });
+    await prisma.user.createMany({
+      data: userListWithHashPassword,
+    });
   }
+}
 
+async function createBooks() {
   const nBook = await prisma.book.count();
   if (nBook == 0) {
     await prisma.book.createMany({ data: bookList });
   }
+}
+
+async function main() {
+  await createUsers();
+  await createBooks();
 }
 
 main()

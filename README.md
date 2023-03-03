@@ -1,4 +1,6 @@
-# Backend
+# Book Selling Website Backend
+
+This repository contains the backend code for a book selling website.
 
 - Framework: [Nestjs](https://docs.nestjs.com/)
 - ORM: [Prisma](https://www.prisma.io/)
@@ -9,7 +11,7 @@
 .
 ├── prisma               # Object Relational Mapping
 │   ├── schema.prisma       # File định nghĩa schema db
-│   └── seed.ts             # seed db (chưa làm)
+│   └── seed.ts             # seed db
 ├── README.md
 ├── src
 │   ├── app.controller.spec.ts
@@ -39,6 +41,10 @@
 
 ## Setup
 
+### Prerequisite
+- NodeJs 16+
+- PostgresSQL database
+
 ### Clone project
 
 ```bash
@@ -50,27 +56,28 @@ yarn
 ### Setup env and database
 #### Setup env variables
 
- 1. Copy file `.env.example` and rename to `.env`
- 2. Open file `.env` and set `DATABASE_URL` to your database connection url
+ 1. Copy the .env.example file and rename it to .env.
+ 2. Open the .env file and set the DATABASE_URL to your database connection URL.
 
 #### Setup database
-  1. Check the status of migrations in the production/staging database
-    ```shell
-    npx prisma migrate status
-    ```
-  2. If db table is exists, run migrate script:
+  1. Check the status of migrations in the production/staging database:
+  ```shell
+  npx prisma migrate status
+  ```
+  2. Database schema
+  - If the database table exists, run the migration script:
     ```shell
     npx prisma migrate dev
     ```
-    Or push the Prisma schema state to the database
+  - Or push the Prisma schema state to the database:
     ```shell
     npx prisma db push
     ```
-  3. Seed db
-    ```shell
-    npx prisma db seed
-    ```
-  For more info: `npx prisma migrate help`
+  3. Seed the database:
+  ```shell
+  npx prisma db seed
+  ```
+  For more information, run `npx prisma migrate help`.
 ### Running the app
 
 ```bash
@@ -84,7 +91,7 @@ yarn start:dev
 yarn start:prod
 ```
 
-- Goto: http://localhost:3000/api
+- Go to: http://localhost:3000/api
 
 ### Test
 
@@ -100,17 +107,7 @@ yarn test:cov
 ```
 
 ### CI/CD
-CI run when push
-```bash
-gitlab-runner exec docker <name>
-```
+CI runs when you push your code into master branch.
 
 ## Usage
-
-### Prisma
-
-```bash
-
-```
-
-## Todo
+- API docs in production: https://web-pj-be.fly.dev/api

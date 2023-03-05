@@ -42,6 +42,8 @@ export const PaginateQuery = createParamDecorator(
 );
 
 /**
+ * Error: Cannot map req query to attribute of instance dto
+ * @deprecated
  * @brief Nhận danh sách filter từ request.query
  *
  * @param _filterCls Class chứa attribute để filter
@@ -49,6 +51,7 @@ export const PaginateQuery = createParamDecorator(
 export const AttrQuery = createParamDecorator(
   (_filterCls: Type<any>, ctx: ExecutionContext) => {
     const query = ctx.switchToHttp().getRequest().query;
+    console.log(query);
     const filter = objAttrMapper(new _filterCls(), query);
     return filter;
   },

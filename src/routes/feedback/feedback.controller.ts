@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -38,9 +39,16 @@ export class FeedbackController {
   @ApiOperation({ summary: 'Danh sách đánh giá' })
   async findAll(
     @PaginateQuery() paginate: PaginateReqQueryT,
-    @AttrQuery(FeedbackQueryDto) attrQuery,
+    // @AttrQuery(FeedbackQueryDto) attrQuery,
     @TimeQuery() timeQuery,
+    @Query('bookId') bookId: string,
+    @Query('userId') userId: string,
   ) {
+    console.log(bookId);
+    const attrQuery = {};
+    if (bookId) attrQuery['bookId'] = Number.parseInt(bookId);
+    if (userId) attrQuery['userId'] = Number.parseInt(userId);
+
     return this.service.findAll(paginate, timeQuery, attrQuery);
   }
 

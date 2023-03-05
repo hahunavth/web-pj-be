@@ -6,7 +6,6 @@ import { FeedbackEntity } from '../../generated-dto/feedback/entities';
 import {
   CreateFeedbackDto,
   UpdateFeedbackDto,
-  ConnectFeedbackDto,
 } from '../../generated-dto/feedback/dto';
 // import { Feedback as GeneratedFeedback} from '../../../database/entity/generated/';
 

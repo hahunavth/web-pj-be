@@ -19,7 +19,7 @@ export class OrderService extends CRUDService<
   UpdateOrderDto
 > {
   constructor(prisma: PrismaService) {
-    super(prisma.order);
+    super(prisma.order, prisma);
   }
 
   public getShippingFee(

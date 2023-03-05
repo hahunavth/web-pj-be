@@ -12,7 +12,7 @@ export class UserService extends CRUDService<
   UpdateUserDto
 > {
   constructor(private prisma: PrismaService) {
-    super(prisma.user);
+    super(prisma.user, prisma);
   }
 
   async create(data: CreateUserDto): Promise<User> {

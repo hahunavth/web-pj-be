@@ -6,6 +6,7 @@ import { OrderItemEntity } from '../../order-item/entities/order-item.entity';
 
 export class BookEntity {
   id: number;
+  title: string;
   author: string;
   category: string;
   coverUrl: string;

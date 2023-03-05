@@ -10,6 +10,8 @@ export type PaginateT = {
   limit?: number | undefined;
   offset?: number | undefined;
   count: number | undefined;
+  total?: number | undefined;
+  orderBy?: KV;
   sort?: any;
 };
 

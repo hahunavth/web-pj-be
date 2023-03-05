@@ -16,7 +16,16 @@ export class BookService extends CRUDService<
   UpdateBookDto
 > {
   public constructor(private prisma: PrismaService) {
-    super(prisma.book);
+    super(prisma.book, prisma);
+  }
+
+  private calculateRating(feedbackStar: { star: number }[]) {
+    return (
+      (feedbackStar.map((a) => a.star) as number[])?.reduce(
+        (a, b) => a + b,
+        0,
+      ) / feedbackStar.length
+    );
   }
 
   public async findAndFilterAll(
@@ -26,38 +35,99 @@ export class BookService extends CRUDService<
     bookFilter?: FilterBookDto,
     bookSort?: SortBookDto,
   ) {
-    this.prisma.book.findMany({});
-    const data = await this.prisma.book.findMany({
-      skip: paginate.offset,
-      take: paginate.limit,
-      orderBy: bookSort
+    attrQuery = {
+      ...attrQuery,
+      price: bookFilter
         ? {
-            [bookSort?.sortBy]: bookSort?.sortType,
+            gte: bookFilter?.minPrice,
+            lte: bookFilter?.maxPrice,
           }
         : undefined,
-      where: {
-        price: bookFilter
-          ? {
-              gte: bookFilter?.minPrice,
-              lte: bookFilter?.maxPrice,
-            }
-          : undefined,
-        ...attrQuery,
-        ...timeQuery?.where,
+    };
+    const orderBy = bookSort
+      ? {
+          [bookSort?.sortBy]: bookSort?.sortType,
+        }
+      : undefined;
+    const where = {
+      ...attrQuery,
+      ...timeQuery?.where,
+    };
+
+    const findManyPromise = this.prisma.book.findMany({
+      skip: paginate.offset,
+      take: paginate.limit,
+      where,
+      orderBy,
+      include: {
+        Feedback: { select: { star: true } },
       },
+    });
+    const countPromise = this.prisma.book.count({ where });
+
+    const [data, total] = await this.__prisma.$transaction([
+      findManyPromise,
+      countPromise,
+    ]);
+
+    const newData = data.map((book) => {
+      const rating = this.calculateRating(book.Feedback);
+      delete book['Feedback'];
+      book['rating'] = rating || 0;
+
+      return book;
     });
 
     return paginateResponse({
       count: data?.length,
-      data,
+      data: newData,
       startAt: timeQuery?.startAt,
       endAt: timeQuery?.endAt,
       ...paginate,
-      filter: {
-        ...attrQuery,
-        ...bookFilter,
-      },
-      sort: bookSort,
+      filter: attrQuery,
+      orderBy,
+      total,
     });
+  }
+
+  public async findOne(
+    id: number,
+  ): Promise<(BookEntity & { rating: number }) | null> {
+    const book = await this.prisma.book.findUnique({
+      where: { id: id },
+      include: {
+        Feedback: { select: { star: true } },
+      },
+    });
+
+    if (!book) return null;
+
+    const rating = this.calculateRating(book.Feedback);
+
+    const newBook: BookEntity & { rating: number } = {
+      title: book.title,
+      author: book.author,
+      category: book.category,
+      createdAt: book.createdAt,
+      description: book.description,
+      id: book.id,
+      price: book.price,
+      rating: rating,
+      updatedAt: book.updatedAt,
+      code: book.code,
+      coverForm: book.coverForm,
+      language: book.language,
+      publisher: book.publisher,
+      weight: book.weight,
+      coverUrl: book.coverUrl,
+      width: book.width,
+      height: book.height,
+      supplier: book.supplier,
+      numOfPages: book.numOfPages,
+      publishDate: book.publishDate,
+      coverType: book.coverType,
+    };
+
+    return newBook;
   }
 }

@@ -15,9 +15,8 @@ export class FeedbackService extends CRUDService<
   FeedbackEntity,
   CreateFeedbackDto,
   UpdateFeedbackDto
->
-{
+> {
   constructor(prisma: PrismaService) {
-    super(prisma.feedback);
+    super(prisma.feedback, prisma);
   }
 }

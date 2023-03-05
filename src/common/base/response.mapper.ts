@@ -16,15 +16,19 @@ export function paginateResponse<T>({
   startAt,
   filter,
   sort,
+  total,
+  orderBy,
 }: ApiPaginateSuccess<T>) {
   return {
     message: message || 'Successfully',
     page,
     limit,
+    total,
     count,
     startAt,
     endAt,
     filter,
+    orderBy,
     sort,
     data,
   };

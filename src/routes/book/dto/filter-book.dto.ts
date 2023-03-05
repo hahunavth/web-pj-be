@@ -1,8 +1,4 @@
-import { Prisma } from '@prisma/client';
-import { IsString, IsNumber, IsDate, IsOptional } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
-import { PaginateReqQuery } from '../../../common/base/base.dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsOptional } from 'class-validator';
 
 export class FilterBookDto {
   constructor(query: any) {

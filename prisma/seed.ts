@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 const bookList: CreateBookDto[] = [
   {
+    title: 'One punch man',
     author: 'One, Yusuke Murata',
     category: 'Manga',
     description: `3 kiếm sĩ đệ tử của Võ Sĩ Hạt Nhân đã tựu kế giúp biệt đội lính đánh thuê của Narinki thoát khỏi sự chi phối của Đại S Công Chúa. Trên đường đào tẩu, cả đám lại đụng độ Ma Tóc Mây!! Kiếm Sĩ Máy Khoan, Kiếm Sĩ Giáp Sắt và Lưỡi Liềm Hifi buộc phải hợp sức chiến đấu mới địch lại hắn. Trong lúc đó, sư phụ của bọn họ là Võ Sĩ Hạt Nhân cũng chạm trán một kì phùng địch thủ đáng gờm…
@@ -52,6 +53,7 @@ const bookList: CreateBookDto[] = [
     weight: 128,
   },
   {
+    title: 'Unknown',
     author: 'Nguyên Phong',
     category: 'Manga',
     description: `Combo Muôn Kiếp Nhân Sinh - Many Times, Many Lives - Tập 1 & Tập 2 (Bộ 2 Tập)

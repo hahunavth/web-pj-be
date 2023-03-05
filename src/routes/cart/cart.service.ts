@@ -17,7 +17,7 @@ export class CartService extends CRUDService<
   UpdateUserCartDto
 > {
   constructor(private prisma: PrismaService) {
-    super(prisma.userCart);
+    super(prisma.userCart, prisma);
   }
 
   public findCardByUserId(user_id: number) {

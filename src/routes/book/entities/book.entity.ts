@@ -12,6 +12,10 @@ import { Type } from 'class-transformer';
 export class BookEntity implements Book {
   @IsNumber()
   id: number;
+
+  @IsString()
+  title: string;
+
   @IsString()
   author: string;
   @IsString()

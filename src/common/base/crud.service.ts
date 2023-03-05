@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { TimeQueryT } from './base.decorator';
 import { PaginateReqQueryT, KV } from './base.dto';
@@ -19,10 +20,13 @@ import { paginateResponse } from './response.mapper';
  * Copyright (c) 2022 HaVT
  */
 export abstract class CRUDService<M, C, U> {
-  constructor(public readonly prismaDeligate: any) {
+  constructor(
+    public readonly prismaDeligate: any,
+    public readonly __prisma: any,
+  ) {
     if (!prismaDeligate) {
       throw new Error(
-        'CRUDService: unknow prisma ModelDeligate :' + prismaDeligate,
+        'CRUDService: unknown prisma ModelDeligate :' + prismaDeligate,
       );
     }
   }
@@ -31,15 +35,25 @@ export abstract class CRUDService<M, C, U> {
     paginate: PaginateReqQueryT,
     timeQuery?: TimeQueryT,
     attrQuery?: KV,
+    orderBy?: KV,
   ) {
-    const data = await this.prismaDeligate.findMany({
+    const where = {
+      ...attrQuery,
+      ...timeQuery?.where,
+    };
+
+    const findManyPromise = this.prismaDeligate.findMany({
       skip: paginate.offset,
       take: paginate.limit,
-      where: {
-        ...attrQuery,
-        ...timeQuery?.where,
-      },
+      where,
+      orderBy,
     });
+    const countPromise = this.prismaDeligate.count({ where });
+
+    const [data, total] = await this.__prisma.$transaction([
+      findManyPromise,
+      countPromise,
+    ]);
 
     return paginateResponse({
       count: data?.length,
@@ -48,6 +62,8 @@ export abstract class CRUDService<M, C, U> {
       endAt: timeQuery?.endAt,
       ...paginate,
       filter: attrQuery,
+      orderBy,
+      total,
     });
   }
 

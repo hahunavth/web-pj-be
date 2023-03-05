@@ -1,4 +1,4 @@
-import { SortBookDto } from './sort-book.dto';
+import { SortBookDto, sortBookAttrs } from './sort-book.dto';
 import { FilterBookDto } from './filter-book.dto';
 import { UpdateBookDto } from './update-book.dto';
 import { CreateBookDto } from 'src/generated-dto/book/dto';
@@ -15,8 +15,8 @@ export class AllBookQueryDto
   @IsOptional()
   @IsNumber()
   public minPrice?: number = undefined;
-  @ApiProperty({ enum: ['price', 'author', 'category', 'publisher'] })
-  @IsEnum(['price', 'author', 'category', 'publisher'])
+  @ApiProperty({ enum: sortBookAttrs })
+  @IsEnum(sortBookAttrs)
   public sortBy: string;
   @ApiProperty({ enum: ['asc', 'desc'] })
   @IsEnum(['asc', 'desc'])

@@ -101,7 +101,10 @@ model UserToken {
 }
 
 model Book {
-  id       Int    @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
+  /// @IsString()
+  title String
+
   /// @IsString()
   author   String
   /// @IsString()

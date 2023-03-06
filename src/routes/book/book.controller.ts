@@ -25,6 +25,7 @@ import { SortBookDto } from './dto/sort-book.dto';
 
 import { FilterBookQuery, SortBookQuery } from './book.decorator';
 import { AllBookQueryDto } from './dto/all-book-query.dto';
+import { QueryBookDto } from './dto/query-book.dto';
 
 @Controller('books')
 @ApiTags('Book')
@@ -43,7 +44,7 @@ export class BookController {
   @ApiGetAllQuery(AllBookQueryDto)
   async findAll(
     @PaginateQuery() paginate: PaginateReqQueryT,
-    @AttrQuery(UpdateBookDto) attrQuery,
+    @AttrQuery(QueryBookDto) attrQuery,
     @TimeQuery() timeQuery,
     @FilterBookQuery() bookFilter: FilterBookDto,
     @SortBookQuery() bookSort: SortBookDto,

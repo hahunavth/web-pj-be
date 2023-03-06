@@ -53,6 +53,8 @@ export class BookService extends CRUDService<
       ...attrQuery,
       ...timeQuery?.where,
     };
+    delete where['sortBy'];
+    delete where['sortType'];
 
     const findManyPromise = this.prisma.book.findMany({
       skip: paginate.offset,

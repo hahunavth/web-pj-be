@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { objAttrMapper } from '../utils/obj-attr.mapper';
 import { PaginateReqQueryT } from './base.dto';
 import { UpdateOrderDto } from 'src/generated-dto/order/dto';
+import { plainToClass } from 'class-transformer';
 
 /*
  * @brief Transform request param / query decorator

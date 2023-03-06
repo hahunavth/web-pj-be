@@ -9,15 +9,20 @@ export class AllBookQueryDto
   extends UpdateBookDto
   implements FilterBookDto, SortBookDto
 {
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsNumber()
   public maxPrice?: number = undefined;
+
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsNumber()
   public minPrice?: number = undefined;
+
   @ApiProperty({ enum: sortBookAttrs })
   @IsEnum(sortBookAttrs)
   public sortBy: string;
+
   @ApiProperty({ enum: ['asc', 'desc'] })
   @IsEnum(['asc', 'desc'])
   public sortType: string;

@@ -4,9 +4,13 @@
  * @param source
  * @returns
  */
-export function objAttrMapper(target, source) {
-  Object.keys(source).forEach((key, i, a) => {
-    if (source[key] !== undefined) {
+export function objAttrMapper(target: object, source: object) {
+  // console.log(Object.getOwnPropertyNames(target));
+  Object.getOwnPropertyNames(source).forEach((key, i, a) => {
+    const attributeType = Reflect.getMetadata('design:type', target, key);
+    // console.log(` >${key}: ${attributeType}`);
+    // console.log(`${typeof source[key]}`);
+    if (target[key] !== undefined) {
       target[key] = source[key];
     } else {
       delete target[key];

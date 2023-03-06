@@ -10,7 +10,7 @@ export function objAttrMapper(target: object, source: object) {
     const attributeType = Reflect.getMetadata('design:type', target, key);
     // console.log(` >${key}: ${attributeType}`);
     // console.log(`${typeof source[key]}`);
-    if (source[key] !== undefined) {
+    if (target[key] !== undefined) {
       target[key] = source[key];
     } else {
       delete target[key];

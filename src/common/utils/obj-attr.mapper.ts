@@ -6,11 +6,11 @@
  */
 export function objAttrMapper(target: object, source: object) {
   // console.log(Object.getOwnPropertyNames(target));
-  Object.getOwnPropertyNames(source).forEach((key, i, a) => {
+  Object.getOwnPropertyNames(target).forEach((key, i, a) => {
     const attributeType = Reflect.getMetadata('design:type', target, key);
-    // console.log(` >${key}: ${attributeType}`);
-    // console.log(`${typeof source[key]}`);
-    if (target[key] !== undefined) {
+    console.log(` >${key}: ${attributeType}`);
+    console.log(`${typeof target[key]}`);
+    if (Object.hasOwnProperty.call(source, key)) {
       target[key] = source[key];
     } else {
       delete target[key];

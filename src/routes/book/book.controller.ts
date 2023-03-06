@@ -57,6 +57,11 @@ export class BookController {
     );
   }
 
+  @Get('categories')
+  async findAllCategories() {
+    return this.service.findAllCategories();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);

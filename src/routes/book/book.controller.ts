@@ -58,8 +58,8 @@ export class BookController {
   }
 
   @Get('categories')
-  async findAllCatigories(){
-    return this.service.findAllCatigories();
+  async findAllCategories() {
+    return this.service.findAllCategories();
   }
 
   @Get(':id')

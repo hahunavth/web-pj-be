@@ -8,6 +8,8 @@ export function objAttrMapper(target, source) {
   Object.keys(source).forEach((key, i, a) => {
     if (source[key] !== undefined) {
       target[key] = source[key];
+    } else {
+      delete target[key];
     }
   });
   return target;

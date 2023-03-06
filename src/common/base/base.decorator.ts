@@ -51,7 +51,6 @@ export const PaginateQuery = createParamDecorator(
 export const AttrQuery = createParamDecorator(
   (_filterCls: Type<any>, ctx: ExecutionContext) => {
     const query = ctx.switchToHttp().getRequest().query;
-    console.log(query);
     const filter = objAttrMapper(new _filterCls(), query);
     return filter;
   },

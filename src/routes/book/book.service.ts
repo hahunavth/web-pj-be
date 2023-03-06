@@ -130,4 +130,11 @@ export class BookService extends CRUDService<
 
     return newBook;
   }
+
+  public async findAllCatigories(){
+    const categories = await this.prisma.book.groupBy({
+      by: ['category']
+    })
+    return categories;
+  }
 }

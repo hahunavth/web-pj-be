@@ -8,6 +8,8 @@ import { AuthService } from './auth.service';
 import { RefreshTokenStrategy } from './jwt-refresh.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
+import { UserService } from '../user/user.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -20,8 +22,15 @@ import { LocalStrategy } from './local.strategy';
       },
       inject: [ConfigService],
     }),
+    UserModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    RefreshTokenStrategy,
+    UserService,
+  ],
 })
 export class AuthModule {}

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { UserService } from './../user/user.service';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
@@ -20,7 +28,10 @@ import { JwtAuthGuard } from './jwt.guard';
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post('signin')
   @ApiOperation({
@@ -39,8 +50,11 @@ export class AuthController {
     summary: ' - Example: role cần đăng nhập mới truy cập được',
   })
   // @ApiBody({ type: AuthorizationDto })
-  getProfile() {
-    return 'profile';
+  getProfile(@Request() req) {
+    const userId = req.user.userId;
+    const user = this.userService.findOne(userId);
+
+    return user;
   }
 
   @UseGuards(JwtAuthGuard)

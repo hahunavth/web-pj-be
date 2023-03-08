@@ -19,7 +19,8 @@ export class PrismaExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const message = exception.meta?.cause;
+    const cause = exception.meta?.cause;
+    const message = exception?.message;
     const status = 400;
     const code = exception.code;
 
@@ -29,6 +30,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
       timestamp: new Date().toISOString(),
       path: request.url,
       message,
+      cause,
       code,
       exceptionType: exception.constructor.name,
       exceptionFilter: this.constructor.name,

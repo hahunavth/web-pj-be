@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -45,9 +46,12 @@ export class OrderController {
   @ApiGetAllQuery(UpdateOrderDto)
   async findAll(
     @PaginateQuery() paginate: PaginateReqQueryT,
-    @AttrQuery(UpdateOrderDto) attrQuery,
+    @Query() attrQuery,
     @TimeQuery() timeQuery,
   ) {
+    if (attrQuery['userId'])
+      attrQuery['userId'] = Number.parseInt(attrQuery['userId']);
+
     return this.service.findAll(paginate, timeQuery, attrQuery);
   }
 

@@ -82,7 +82,8 @@ export class OrderController {
   @ApiOperation({
     summary: 'api đặt hàng',
     description:
-      'Lấy dữ liệu giỏ hàng của ng dùng, tạo order, tạo orderItem, xóa giỏ hàng',
+      'Lấy dữ liệu giỏ hàng của ng dùng, tạo order, tạo orderItem, xóa giỏ hàng\n' +
+      'delivery mehtod: standard, express, fast\n',
   })
   @Post('checkout')
   async checkout(@Body() connectOrderDto: CheckoutDto) {
@@ -125,7 +126,7 @@ export class OrderController {
       );
     }
 
-    const strAddr = this.addressService.getStringAddress(
+    const strAddr = await this.addressService.getStringAddress(
       cityCode,
       districtCode,
       wardCode,

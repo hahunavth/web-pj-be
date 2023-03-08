@@ -37,6 +37,11 @@ export class BookService extends CRUDService<
   ) {
     attrQuery = {
       ...attrQuery,
+      // find by title
+      title: {
+        contains: attrQuery?.title,
+      },
+      // price range
       price: bookFilter
         ? {
             gte: bookFilter?.minPrice,

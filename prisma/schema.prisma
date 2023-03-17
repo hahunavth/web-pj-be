@@ -7,6 +7,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 // Config để auto gen typescript type từ file schema này.
 // Khi không dùng đến cần commment lại
 

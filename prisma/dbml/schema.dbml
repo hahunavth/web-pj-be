@@ -1,0 +1,200 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  email String [unique, not null, note: '@IsString()']
+  name String [not null, note: '@IsString()']
+  password String [not null, note: '@IsString()']
+  phone String [not null, note: '@IsString()']
+  gender Gender [not null, default: 'OTHER', note: '@DtoCreateOptional
+@DtoUpdateOptional']
+  role Role [not null, default: 'USER', note: '@DtoCreateOptional
+@DtoUpdateOptional']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Order Order [not null]
+  Feedback Feedback [not null]
+  UserCart UserCart [not null]
+  UserToken UserToken
+}
+
+Table UserToken {
+  user User [not null]
+  userId Int [pk, unique]
+  token String [not null, note: '@IsString()']
+  createdAt DateTime [default: `now()`, not null, note: '@DtoReadOnly']
+  updatedAt DateTime [not null]
+
+  indexes {
+    (userId) [pk]
+  }
+}
+
+Table Book {
+  id Int [pk, increment]
+  title String [not null, note: '@IsString()']
+  author String [not null, note: '@IsString()']
+  category String [not null, note: '@IsString()']
+  coverUrl String [not null, note: '@IsString()
+@IsOptional()']
+  coverForm String [not null, note: '@IsString()
+@IsOptional()']
+  code String [unique, not null, note: '@IsString()
+@IsOptional()']
+  supplier String [not null, note: '@IsString()
+@IsOptional()']
+  language String [not null, note: '@IsString()
+@IsOptional()']
+  weight Float [not null, note: '@IsFloat()
+@IsOptional()']
+  width Float [not null, note: '@IsFloat()
+@IsOptional()']
+  height Float [not null, note: '@IsFloat()
+@IsOptional()']
+  description String [not null]
+  numOfPages Int [not null, note: '@IsNumber()
+@Min(0)']
+  publisher String [not null, note: '@IsString()']
+  price Int [not null, note: '@IsNumber()
+@Min(0)']
+  publishDate DateTime [default: `now()`, not null, note: '@Type(() => Date){\'class-transformer\'}
+@IsDate()']
+  coverType String [not null, note: '@IsString()']
+  Feedback Feedback [not null]
+  UserCart UserCart [not null]
+  OrderItem OrderItem [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Feedback {
+  id Int [pk, increment]
+  comment String [not null, note: '@IsString()']
+  star Int [not null, note: '@IsNumber()
+@Max(5)
+@Min(1)']
+  userId Int [not null]
+  user User [not null]
+  bookId Int [not null]
+  book Book [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table UserCart {
+  quantity Int [not null, note: '@IsNumber()
+@Min(1)']
+  userId Int [not null]
+  user User [not null]
+  bookId Int [not null]
+  book Book [not null]
+
+  indexes {
+    (userId, bookId) [pk]
+  }
+}
+
+Table Card {
+  id Int [pk, increment]
+  cvvCode Int [not null, note: '@IsNumber()']
+  cardCode String [not null, note: '@IsString()']
+  owner String [not null, note: '@IsString()']
+  dateExpired DateTime [not null, note: '@Type(() => Date){\'class-transformer\'}
+@IsDate()']
+  PaymentTransaction PaymentTransaction
+}
+
+Table PaymentTransaction {
+  id Int [pk, increment]
+  content String [not null, note: '@IsString()']
+  method String [not null, note: '@IsString()']
+  card Card [not null]
+  cardId Int [unique, not null]
+  invoice Invoice
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Invoice {
+  id Int [pk, increment]
+  totalAmount Int [not null, note: '@IsNumber()
+@Min(0)']
+  paymentTransaction PaymentTransaction
+  paymentTransactionId Int [unique]
+  order Order
+}
+
+Table Order {
+  id Int [pk, increment]
+  address String [not null, note: '@IsString()']
+  shippingFees Int [not null, note: '@IsNumber()
+@Min(0)']
+  invoice Invoice
+  invoiceId Int [unique]
+  User User [not null]
+  userId Int [not null]
+  orderItem OrderItem [not null]
+  status OrderStatus [not null, default: 'PENDING']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table OrderItem {
+  quantity Int [not null, note: '@IsNumber()
+@Min(1)']
+  price Int [not null, note: '@IsNumber()
+@Min(0)']
+  book Book [not null]
+  bookId Int [not null]
+  order Order [not null]
+  orderId Int [not null]
+
+  indexes {
+    (bookId, orderId) [pk]
+  }
+}
+
+Enum Role {
+  USER
+  ADMIN
+}
+
+Enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+Enum OrderStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  DELIVERING
+  DELIVERED
+  RETURNING
+  RETURNED
+}
+
+Ref: UserToken.userId - User.id
+
+Ref: Feedback.userId > User.id
+
+Ref: Feedback.bookId > Book.id
+
+Ref: UserCart.userId > User.id [delete: Cascade]
+
+Ref: UserCart.bookId > Book.id [delete: Cascade]
+
+Ref: PaymentTransaction.cardId - Card.id
+
+Ref: Invoice.paymentTransactionId - PaymentTransaction.id
+
+Ref: Order.invoiceId - Invoice.id
+
+Ref: Order.userId > User.id
+
+Ref: OrderItem.bookId > Book.id
+
+Ref: OrderItem.orderId > Order.id
